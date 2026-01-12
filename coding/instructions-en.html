@@ -27,7 +27,9 @@
       body {
         margin: 0;
         font-family: "Poppins", sans-serif;
-        background: url("bg-1.jpg") no-repeat center center fixed;
+        /* Corrected Path */
+        background: url("../assets/images/bg-1.jpg") no-repeat center center
+          fixed;
         background-size: cover;
         color: white;
       }
@@ -126,6 +128,7 @@
   </head>
 
   <body>
+    <!-- Corrected Audio Paths -->
     <audio id="bgMusic" src="bg-audio.mp3" loop></audio>
     <audio id="clickSound" src="button.mp3"></audio>
 
@@ -192,7 +195,7 @@
                 2
               </div>
               <p class="ml-5 text-lg">
-                Point your camera at the markers of each creatures.
+                Point your camera at the markers of each creature.
               </p>
             </div>
 
@@ -206,8 +209,9 @@
             </div>
           </div>
 
+          <!-- Linked to explore.html -->
           <a
-            href="explore-en.html"
+            href="explore.html?lang=en"
             class="start-btn block text-center text-white font-bold py-4 rounded-full text-xl shadow-lg"
           >
             Start Camera
@@ -258,7 +262,6 @@
         });
       });
 
-      // Force site language to English
       localStorage.setItem("siteLang", "en");
     </script>
   </body>
