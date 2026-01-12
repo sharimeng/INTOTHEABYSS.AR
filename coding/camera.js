@@ -36,7 +36,7 @@ const uiLabels = {
     ms: {
         audioBtn: "🎧 Log Audio",
         stopBtn: "⏹ Henti Log",
-        backLink: "instructions.my", 
+        backLink: "instructions-my.html", 
         factBtn: "📘 FAKTA MENARIK ✨",
         instructionTitle: "👆 INTERAKSI",
         tap1: "Tekan 1x:",
@@ -206,7 +206,9 @@ const factData = [
   ["Sea Angel It hunts sea butterflies.", "Has transparent body.", "can out swim much bigger animals."],
 ];
 
-// 2 dialog options per creature
+// -----------------------------------------------------------------------------
+// [UPDATED] 2 dialog options per creature -> Single specific text
+// -----------------------------------------------------------------------------
 const dialogData = [
   // 1. Barreleye
   ["My head is see-through, and my eyes glow!"],
@@ -277,7 +279,6 @@ const loadModel = async (path, index) => {
   const useOriginalLight = (index === 2 || index === 3);
   
   // [MODIFIED] Increased baseIntensity for Atolla/Dumbo to compensate for dimmer world light
-  // This makes them glow nicely in the dark
   const baseIntensity = useOriginalLight ? 2.5 : 0.2;
 
   // Emission Setup
@@ -331,8 +332,9 @@ const loadAndConfigureAudio = async (path, camera) => {
 const createHoloTranscript = () => {
   const container = document.createElement("div");
   container.id = "holo-transcript-container";
+  // [MODIFIED] Mobile adjustments: higher bottom offset
   Object.assign(container.style, {
-    position: "absolute", bottom: "100px", left: "50%", transform: "translateX(-50%)",
+    position: "absolute", bottom: "160px", left: "50%", transform: "translateX(-50%)",
     width: "90%", maxWidth: "500px", maxHeight: "0px", // Hidden by default
     background: "rgba(8, 15, 30, 0.85)", // Deep sea navy
     backdropFilter: "blur(12px)", 
@@ -601,11 +603,14 @@ const createFactButton = (anchorId, clickSound) => {
   // We'll use the dynamic label to support language switching.
   btn.innerText = uiLabels[currentLanguage].factBtn;
 
+  // [MODIFIED] Mobile Optimizations: Max width and better positioning
   Object.assign(btn.style,{
-    position:"absolute", bottom:"25px", left:"50%", transform:"translateX(-50%)",
-    padding:"14px 28px", fontSize:"19px", borderRadius:"30px", border:"none",
+    position:"absolute", bottom:"30px", left:"50%", transform:"translateX(-50%)",
+    width: "70%", maxWidth: "350px", // Fit mobile
+    padding:"14px 20px", fontSize:"16px", borderRadius:"30px", border:"none",
     background:"#0ea5e9", color:"#fff", fontWeight:"600", cursor:"pointer",
-    display:"none", zIndex:"9999", boxShadow:"0 6px 18px rgba(0,0,0,0.3)"
+    display:"none", zIndex:"9999", boxShadow:"0 6px 18px rgba(0,0,0,0.3)",
+    whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" // Handle long text
   });
   document.body.appendChild(btn);
   let factBox = null;
@@ -613,8 +618,9 @@ const createFactButton = (anchorId, clickSound) => {
     clickSound.setPlaybackRate(0.7); clickSound.play();
     if(factBox){ factBox.remove(); factBox=null; return; }
     factBox = document.createElement("div");
+    // [MODIFIED] Raised popup position so it doesn't cover buttons
     Object.assign(factBox.style,{
-      position:"absolute", bottom:"85px", left:"50%", transform:"translateX(-50%)",
+      position:"absolute", bottom:"150px", left:"50%", transform:"translateX(-50%)",
       width:"88%", maxWidth:"420px", padding:"24px", borderRadius:"20px",
       background:"rgba(10,20,40,0.6)", color:"#e0f2fe", fontFamily:"Poppins, sans-serif",
       zIndex:"9998", boxShadow:"0 20px 50px rgba(0,0,0,0.6)"
@@ -656,9 +662,10 @@ const createBubbles = (scene) => {
 
 const createPersistentInstruction = () => {
   const instructionBox = document.createElement("div");
+  // [MODIFIED] Mobile Optimizations: Max width prevents cutoff
   Object.assign(instructionBox.style, {
-    position: "absolute", top: "80px", right: "10px", width: "200px", padding: "15px", borderRadius: "12px",
-    background: "rgba(0, 0, 0, 0.5)", color: "#ffffff", fontFamily: "Poppins, sans-serif", fontSize: "13px",
+    position: "absolute", top: "80px", right: "10px", width: "180px", padding: "12px", borderRadius: "12px",
+    background: "rgba(0, 0, 0, 0.5)", color: "#ffffff", fontFamily: "Poppins, sans-serif", fontSize: "12px",
     lineHeight: "1.4", zIndex: "9998", backdropFilter: "blur(4px)", border: "1px solid rgba(255, 255, 255, 0.2)", pointerEvents: "none" 
   });
   
@@ -725,12 +732,14 @@ document.addEventListener("DOMContentLoaded", async()=>{
     // Dynamic text based on URL language
     narrationBtn.innerText = uiLabels[currentLanguage].audioBtn;
 
+    // [MODIFIED] Mobile Optimizations: Stacked above Fact Button
     Object.assign(narrationBtn.style,{
-      position:"absolute", bottom:"25px", left:`calc(50% + 180px)`,
-      padding:"14px 28px", fontSize:"19px", borderRadius:"30px", border:"none",
+      position:"absolute", bottom:"85px", left:"50%", transform:"translateX(-50%)", // Stacked
+      width: "70%", maxWidth: "350px", // Fit mobile
+      padding:"14px 20px", fontSize:"16px", borderRadius:"30px", border:"none",
       background:"#14b8a6", color:"#fff", fontWeight:"600", cursor:"pointer",
       display:"none", zIndex:"9999", boxShadow:"0 6px 18px rgba(0,0,0,0.3)",
-      alignItems: "center", gap: "8px"
+      alignItems: "center", gap: "8px", justifyContent: "center"
     });
     document.body.appendChild(narrationBtn);
 
@@ -807,7 +816,7 @@ document.addEventListener("DOMContentLoaded", async()=>{
 
   const audioBtn=document.createElement("div");
   audioBtn.innerText='🔇';
-  Object.assign(audioBtn.style,{ position:'absolute', top:'10px', right:'10px', fontSize:'50px', cursor:'pointer', zIndex:'9999' });
+  Object.assign(audioBtn.style,{ position:'absolute', top:'10px', right:'10px', fontSize:'40px', cursor:'pointer', zIndex:'9999' }); // Smaller font for mobile
   document.body.appendChild(audioBtn);
   let isPlaying=false;
   audioBtn.addEventListener("click",()=>{
@@ -868,7 +877,13 @@ document.addEventListener("DOMContentLoaded", async()=>{
         tempVector.project(camera);
         const x = (tempVector.x * .5 + .5) * window.innerWidth;
         const y = (-(tempVector.y * .5) + .5) * window.innerHeight;
-        activeBubble.element.style.left = `${x}px`;
+        
+        // [MODIFIED] Clamping logic to prevent bubble from going off-screen
+        const bubbleWidthHalf = 110; // Half of bubble width (220px)
+        const margin = 10;
+        const clampedX = Math.max(bubbleWidthHalf + margin, Math.min(window.innerWidth - bubbleWidthHalf - margin, x));
+
+        activeBubble.element.style.left = `${clampedX}px`;
         activeBubble.element.style.top = `${y}px`;
     } else if (activeBubble.element && activeBubble.element.style.opacity === "1" && (!activeBubble.model || !activeBubble.model.visible)) {
         activeBubble.element.style.opacity = "0";
