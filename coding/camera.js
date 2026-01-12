@@ -25,13 +25,25 @@ const uiLabels = {
         audioBtn: "🎧 Audio Log",
         stopBtn: "⏹ Stop Log",
         backLink: "instructions-en.html",
-        factBtn: "📘 INTERESTING FACT ✨"
+        factBtn: "📘 INTERESTING FACT ✨",
+        instructionTitle: "👆 INTERACTION",
+        tap1: "Tap 1x:",
+        tap1Action: "Action + Talk",
+        tap2: "Tap 2x:",
+        tap2Action: "Interact",
+        gestures: "🤏 Pinch to Zoom | 👆 Drag to Rotate"
     },
     ms: {
         audioBtn: "🎧 Log Audio",
         stopBtn: "⏹ Henti Log",
-        backLink: "instructions-ms.html", 
-        factBtn: "📘 FAKTA MENARIK ✨"
+        backLink: "instructions.my", 
+        factBtn: "📘 FAKTA MENARIK ✨",
+        instructionTitle: "👆 INTERAKSI",
+        tap1: "Tekan 1x:",
+        tap1Action: "Aksi + Cakap",
+        tap2: "Tekan 2x:",
+        tap2Action: "Berinteraksi",
+        gestures: "🤏 Cubit: Zum | 👆 Seret: Pusing"
     }
 };
 
@@ -197,25 +209,25 @@ const factData = [
 // 2 dialog options per creature
 const dialogData = [
   // 1. Barreleye
-  ["My head is see-through!", "Look at my green glowing eyes!"],
+  ["My head is see-through, and my eyes glow!"],
   // 2. Blobfish
-  ["I'm not ugly, I'm just relaxed!", "Please don't turn me into a meme."],
+  ["I’m not ugly — I’m just under pressure!"],
   // 3. Atolla
-  ["Flash! Did I scare you?", "My lights confuse predators!"],
+  ["When I’m attacked, I light up!"],
   // 4. Dumbo
-  ["I fly through the water with my ears!", "Don't I look like a cute elephant?"],
+  ["I flap my fins like ears and float like I’m flying!"],
   // 5. Gulper
-  ["I can swallow things bigger than me!", "Check out the light on my tail."],
+  ["My mouth is bigger than my body!"],
   // 6. Yeti Crab
-  ["I grow my own food on my arms!", "I'm fuzzy but I'm not a pet!"],
+  ["I grow food on my claws!"],
   // 7. Vampire Squid
-  ["I don't drink blood, I eat ocean snow!", "Look at my glowing tips!"],
+  ["I don’t bite — I just glow and go!"],
   // 8. Megamouth Shark
-  ["I swim with my mouth wide open!", "I have glowing lips to attract snacks!"],
+  ["I swim with my giant mouth wide open!"],
   // 9. Anglerfish
-  ["Come closer to my little light...", "My teeth are translucent!"],
+  ["I light up the dark to hunt!"],
   // 10. Sea Angel
-  ["I'm a swimming snail without a shell!", "Watch me dance!"]
+  ["I’m tiny, glowing, and graceful — but I’m a hunter too!"]
 ];
 
 // -----------------------------------------------------------------------------
@@ -263,7 +275,10 @@ const loadModel = async (path, index) => {
 
   // --- SPECIAL LOGIC FOR ATOLLA (2) & DUMBO (3) ---
   const useOriginalLight = (index === 2 || index === 3);
-  const baseIntensity = useOriginalLight ? 1.0 : 0.2;
+  
+  // [MODIFIED] Increased baseIntensity for Atolla/Dumbo to compensate for dimmer world light
+  // This makes them glow nicely in the dark
+  const baseIntensity = useOriginalLight ? 2.5 : 0.2;
 
   // Emission Setup
   model.userData.emissiveMeshes = [];
@@ -278,6 +293,11 @@ const loadModel = async (path, index) => {
              child.material.emissive = new THREE.Color(0xffffff); 
              if (child.material.map) child.material.emissiveMap = child.material.map;
              child.material.emissiveIntensity = baseIntensity;
+             
+             // [MODIFIED] Make them look "wet"/shiny for the habitat look
+             child.material.roughness = 0.1; 
+             child.material.metalness = 0.1;
+             
              model.userData.emissiveMeshes.push(child);
         } else if (child.material.emissiveMap || (child.material.emissive && child.material.emissive.getHex() > 0)) {
             child.material.emissiveIntensity = baseIntensity; 
@@ -421,10 +441,11 @@ const showAdvancedDialog = (modelIndex, modelScene, clickSound) => {
     activeBubble.element = bubble;
     activeBubble.model = modelScene;
     
-    // --- UPDATED HEIGHT ---
-    // Set to 2.2 (High fixed value). 
-    // Since models are auto-scaled to 0.5, this is 4x higher than the model.
-    activeBubble.offsetY = 2.2; 
+    // ==========================================================
+    // [MODIFIED] Increased bubble height (offsetY)
+    // ==========================================================
+    // Set to 4.5 to ensure it clears all models (including tall ones)
+    activeBubble.offsetY = 4.5; 
 
     bubble.style.opacity = "1";
     textSpan.textContent = ""; 
@@ -640,11 +661,15 @@ const createPersistentInstruction = () => {
     background: "rgba(0, 0, 0, 0.5)", color: "#ffffff", fontFamily: "Poppins, sans-serif", fontSize: "13px",
     lineHeight: "1.4", zIndex: "9998", backdropFilter: "blur(4px)", border: "1px solid rgba(255, 255, 255, 0.2)", pointerEvents: "none" 
   });
+  
+  // [MODIFIED] Use UI Labels instead of hardcoded English text
+  const txt = uiLabels[currentLanguage];
+  
   instructionBox.innerHTML = `
-    <div style="margin-bottom: 8px; font-weight: bold; color: #0ea5e9;">👆 INTERACTION</div>
-    <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;"><span>Tap 1x:</span><span style="opacity:0.8">Action + Talk</span></div>
-    <div style="display:flex; align-items:center; gap:8px;"><span>Tap 2x:</span><span style="opacity:0.8">Interact</span></div>
-    <div style="display:flex; align-items:center; gap:8px; margin-top:4px; font-size:11px; opacity:0.7"><span>🤏 Pinch to Zoom | 👆 Drag to Rotate</span></div>
+    <div style="margin-bottom: 8px; font-weight: bold; color: #0ea5e9;">${txt.instructionTitle}</div>
+    <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;"><span>${txt.tap1}</span><span style="opacity:0.8">${txt.tap1Action}</span></div>
+    <div style="display:flex; align-items:center; gap:8px;"><span>${txt.tap2}</span><span style="opacity:0.8">${txt.tap2Action}</span></div>
+    <div style="display:flex; align-items:center; gap:8px; margin-top:4px; font-size:11px; opacity:0.7"><span>${txt.gestures}</span></div>
   `;
   document.body.appendChild(instructionBox);
 };
@@ -661,8 +686,11 @@ document.addEventListener("DOMContentLoaded", async()=>{
   // --- UPDATED LIGHTING: WARMER & DIMMER ---
   // Ambient: 0x406080 (Soft Blue-Grey) @ 2.0
   const ambientLight = new THREE.AmbientLight(0x406080, 2.0); 
-  // Directional: 0xfff5e6 (Warm Submarine White) @ 2.0 (Dimmed)
-  const directionalLight = new THREE.DirectionalLight(0xfff5e6, 2.0); 
+  
+  // [MODIFIED] Reduced directional light to 0.8 (was 2.0)
+  // This makes the environment "dimmer" (Deep Sea Habitat feel)
+  const directionalLight = new THREE.DirectionalLight(0xfff5e6, 0.8); 
+  
   directionalLight.position.set(1,2,3);
   scene.add(ambientLight,directionalLight);
 
@@ -672,7 +700,13 @@ document.addEventListener("DOMContentLoaded", async()=>{
   const models = await Promise.all(modelNames.map((_,i)=>loadModel(`../assets/models/${i+1}.glb`, i)));
 
   const bgAudios = await Promise.all(new Array(10).fill('../coding/bg-audio.mp3').map(p=>loadAndConfigureAudio(p,camera)));
-  const narrationPaths = modelNames.map((_,i)=>`../assets/audio/english/${i+1}.mp3`);
+  
+  // ==========================================================
+  // [MODIFIED] Corrected Dynamic Audio Path
+  // ==========================================================
+  const audioFolder = currentLanguage === 'ms' ? 'malay' : 'english';
+  const narrationPaths = modelNames.map((_,i)=>`../assets/audio/${audioFolder}/${i+1}.mp3`);
+
   const narrationAudios = await Promise.all(narrationPaths.map(p=>loadAndConfigureAudio(p,camera)));
   const clickSound = await loadAndConfigureAudio('../coding/button.mp3', camera);
 
@@ -783,13 +817,31 @@ document.addEventListener("DOMContentLoaded", async()=>{
   });
 
   createPersistentInstruction();
-  const backBtn=document.createElement("a");
-  backBtn.innerHTML="&#11013;"; 
+
+  const backBtn = document.createElement("a");
+  // Use a clean SVG arrow instead of the unicode character
+  backBtn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>`;
   
   // DYNAMIC BACK LINK
   backBtn.href = uiLabels[currentLanguage].backLink;
 
-  Object.assign(backBtn.style,{ position:"absolute", top:"10px", left:"10px", fontSize:"70px", fontWeight:"bold", textDecoration:"none", color:"black", cursor:"pointer", zIndex:"9999" });
+  Object.assign(backBtn.style, { 
+    position: "absolute", top: "20px", left: "20px", 
+    width: "50px", height: "50px", borderRadius: "50%",
+    background: "rgba(8, 15, 30, 0.6)", // Deep sea dark
+    border: "2px solid #0ea5e9", // Cyan border (Holo)
+    color: "#0ea5e9", // Cyan Icon
+    display: "flex", justifyContent: "center", alignItems: "center",
+    backdropFilter: "blur(4px)",
+    boxShadow: "0 0 15px rgba(14, 165, 233, 0.3)",
+    cursor: "pointer", zIndex: "9999",
+    transition: "transform 0.2s ease, background 0.2s ease"
+  });
+
+  // Simple hover effect
+  backBtn.onmouseenter = () => { backBtn.style.transform = "scale(1.1)"; backBtn.style.background = "rgba(14, 165, 233, 0.15)"; };
+  backBtn.onmouseleave = () => { backBtn.style.transform = "scale(1.0)"; backBtn.style.background = "rgba(8, 15, 30, 0.6)"; };
+
   document.body.appendChild(backBtn);
 
   const tempVector = new THREE.Vector3();
