@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Descent - Into The Abyss</title>
+    <title>Mission Briefing - Deep Sea AR</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap"
@@ -18,22 +18,21 @@
         overflow-x: hidden;
       }
 
-      /* The Deep Sea Gradient - Darkens faster now */
+      /* The Deep Sea Gradient */
       .ocean-container {
         background: linear-gradient(
           180deg,
           #2c7da0 0%,
-          /* Surface (Darker Blue Start) */ #014f86 15%,
-          /* 200m - Twilight starts early */ #012a4a 30%,
-          /* 1000m - Midnight */ #000000 60%,
-          /* Abyss starts earlier */ #000000 100%
+          #014f86 15%,
+          #012a4a 30%,
+          #000000 60%,
+          #000000 100%
         );
-        min-height: 300vh;
+        min-height: 320vh;
         position: relative;
-        padding-bottom: 100px;
+        padding-bottom: 150px;
       }
 
-      /* Animated Bubble Particles */
       .particle {
         position: absolute;
         background: rgba(255, 255, 255, 0.15);
@@ -54,9 +53,8 @@
         }
       }
 
-      /* Card Styling */
       .creature-card {
-        background: rgba(0, 0, 0, 0.4); /* Darker cards */
+        background: rgba(0, 0, 0, 0.4);
         backdrop-filter: blur(5px);
         border: 1px solid rgba(79, 195, 247, 0.3);
         border-radius: 15px;
@@ -69,22 +67,54 @@
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         position: absolute;
         cursor: pointer;
+        z-index: 20; /* Ensure above ruler */
       }
       .creature-card:hover {
         transform: scale(1.15);
         background: rgba(2, 136, 209, 0.3);
-        z-index: 10;
+        z-index: 30;
         box-shadow: 0 0 25px rgba(2, 136, 209, 0.5);
       }
       .creature-img {
-        width: 150px;
-        height: 150px;
-        object-fit: cover;
-        border-radius: 10px;
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
         filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
       }
+      .creature-card h3 {
+        margin-top: 0.5rem;
+        line-height: 1.2;
+      }
 
-      /* Depth Ruler Line */
+      /* Target Badge */
+      .target-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #ef4444;
+        color: white;
+        font-size: 9px;
+        font-weight: 800;
+        padding: 2px 6px;
+        border-radius: 4px;
+        box-shadow: 0 0 5px rgba(239, 68, 68, 0.6);
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.8;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
       .depth-ruler {
         position: absolute;
         left: 20px;
@@ -96,6 +126,7 @@
           rgba(255, 255, 255, 0.5),
           rgba(255, 255, 255, 0.1)
         );
+        z-index: 5;
       }
       .depth-marker {
         position: absolute;
@@ -116,7 +147,6 @@
         margin-left: -9px;
       }
 
-      /* Zone Labels */
       .zone-label {
         position: absolute;
         right: 20px;
@@ -127,9 +157,9 @@
         text-transform: uppercase;
         pointer-events: none;
         letter-spacing: 0.1em;
+        z-index: 1;
       }
 
-      /* Intro Text Animation */
       .intro-text {
         animation: fadeIn 2s ease-in-out;
       }
@@ -144,7 +174,6 @@
         }
       }
 
-      /* Modal Styling */
       #infoModal {
         transition: opacity 0.3s ease;
       }
@@ -154,17 +183,104 @@
         border: 1px solid rgba(56, 189, 248, 0.3);
         box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
       }
+
+      /* Deploy Button at bottom */
+      .deploy-section {
+        position: absolute;
+        bottom: 50px;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 20;
+      }
+
+      .btn-deploy {
+        background: rgba(14, 165, 233, 0.2);
+        border: 2px solid #0ea5e9;
+        color: #e0f2fe;
+        padding: 15px 40px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        border-radius: 50px;
+        box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        backdrop-filter: blur(5px);
+        text-align: center;
+      }
+      .btn-deploy:hover {
+        background: #0ea5e9;
+        color: white;
+        box-shadow: 0 0 40px rgba(14, 165, 233, 0.8);
+        transform: scale(1.05);
+      }
+
+      /* --- MOBILE RESPONSIVENESS FIXES --- */
+      @media (max-width: 640px) {
+        .ocean-container {
+          /* Increase height significantly to spread cards out vertically */
+          min-height: 420vh;
+        }
+
+        .creature-card {
+          width: 120px; /* Smaller card */
+          padding: 8px;
+        }
+        .creature-img {
+          width: 80px;
+          height: 80px;
+        }
+        .creature-card h3 {
+          font-size: 0.75rem; /* Smaller text */
+        }
+        .creature-card p {
+          font-size: 0.6rem;
+        }
+
+        .zone-label {
+          font-size: 1.2rem; /* Reduce background text size */
+          right: 10px;
+        }
+
+        /* Safer Horizontal Positioning for Mobile */
+        /* Left aligned cards - push them right to avoid the depth ruler */
+        .pos-left {
+          left: 55px !important;
+        }
+        /* Right aligned cards - keep them safe from screen edge */
+        .pos-right {
+          right: 15px !important;
+          left: auto !important;
+        }
+        /* Center aligned cards */
+        .pos-center {
+          left: 50% !important;
+          transform: translateX(-50%) !important;
+        }
+
+        .btn-deploy {
+          padding: 12px 20px;
+          font-size: 0.9rem;
+          width: 90%;
+          max-width: 300px;
+        }
+      }
     </style>
   </head>
   <body>
-    <!-- Back Button -->
+    <audio id="clickSound" src="button.mp3"></audio>
+
     <a
       href="../index.html"
-      class="fixed top-5 left-5 z-50 bg-black/40 backdrop-blur-md border border-white/20 rounded-full py-2 px-4 hover:bg-white/10 transition shadow-lg flex items-center gap-2 group"
+      class="fixed top-6 left-6 z-50 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 hover:scale-110 transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)] group"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="h-5 w-5 text-gray-200 group-hover:-translate-x-1 transition-transform"
+        class="h-6 w-6 group-hover:-translate-x-1 transition-transform"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -176,20 +292,22 @@
           d="M10 19l-7-7m0 0l7-7m-7 7h18"
         />
       </svg>
-      <span
-        class="text-sm font-semibold tracking-wide text-gray-200"
-        data-key="Back"
-        >Back</span
-      >
     </a>
 
-    <!-- Info Modal (Hidden by default) -->
+    <button
+      id="langSwitch"
+      class="fixed top-6 right-6 z-50 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg hover:bg-white/20 hover:scale-105 transition-all duration-300 font-bold tracking-wider text-sm flex items-center gap-2"
+    >
+      🌐 EN
+    </button>
+
+    <!-- Info Modal -->
     <div
       id="infoModal"
       class="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 opacity-0 pointer-events-none p-4"
     >
       <div
-        class="modal-content relative w-full max-w-md rounded-2xl p-8 text-center transform scale-95 transition-transform duration-300 overflow-y-auto max-h-[90vh]"
+        class="modal-content relative w-full max-w-sm rounded-2xl p-6 text-center transform scale-95 transition-transform duration-300 overflow-y-auto max-h-[90vh]"
       >
         <button
           id="closeModal"
@@ -197,15 +315,14 @@
         >
           &times;
         </button>
-
         <img
           id="modalImg"
           src=""
-          class="w-48 h-48 mx-auto object-cover rounded-xl mb-4 filter drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] border border-white/10"
+          class="w-24 h-24 mx-auto object-contain mb-2 filter drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
         />
         <h2
           id="modalTitle"
-          class="text-2xl font-bold text-sky-400 mb-1 tracking-widest"
+          class="text-2xl font-bold text-sky-400 mb-1 tracking-widest uppercase"
         >
           Creature Name
         </h2>
@@ -216,104 +333,101 @@
           Depth Info
         </p>
 
-        <!-- Zone Context -->
         <div
           class="bg-blue-950/50 p-3 rounded-lg mb-3 border-l-2 border-blue-500 text-left"
         >
           <h4
-            class="text-blue-400 text-xs font-bold uppercase mb-1"
+            class="text-blue-400 text-[10px] font-bold uppercase mb-1"
             data-key="ZoneInfo"
           >
-            Zone Context
+            ZONE CONTEXT
           </h4>
-          <p id="modalZone" class="text-xs text-gray-300 italic">
+          <p
+            id="modalZone"
+            class="text-xs text-gray-300 italic leading-relaxed"
+          >
             Zone details...
           </p>
         </div>
 
-        <!-- Adaptation / Science Facts -->
         <div class="text-left bg-white/5 p-4 rounded-xl border border-white/5">
           <h4
-            class="text-sky-300 text-sm font-bold mb-2 uppercase tracking-wide flex items-center gap-2"
+            class="text-sky-300 text-xs font-bold mb-3 uppercase tracking-wide flex items-center gap-2"
           >
             <span class="text-lg">🧬</span>
             <span data-key="SurvivalStrategy">Survival Strategy</span>
           </h4>
           <div
             id="modalFacts"
-            class="text-sm text-gray-300 space-y-3 font-light"
-          >
-            <!-- Scientific facts go here -->
-          </div>
+            class="text-xs text-gray-300 space-y-3 font-light leading-relaxed"
+          ></div>
         </div>
       </div>
     </div>
 
-    <!-- Main Ocean Container -->
+    <!-- Main Scroll Container -->
     <div class="ocean-container" id="ocean">
-      <!-- Narrative Header -->
       <div
         class="absolute top-20 left-0 w-full text-center px-6 intro-text z-10"
       >
         <h1
+          data-key="MainTitle"
           class="text-2xl font-bold text-white mb-2 tracking-widest uppercase"
-          style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.5)"
         >
-          The Descent
+          Mission Briefing
         </h1>
         <p
           class="text-xs text-blue-200 max-w-md mx-auto leading-relaxed"
           data-key="IntroText"
         >
-          To find the true monsters of the deep, we must leave the light behind.
-          Scroll down to enter the Abyss.
+          Identify your targets in the zones below before deploying the scanner.
+          Scroll down to the abyss.
         </p>
         <div class="mt-4 animate-bounce text-blue-300 text-xl">↓</div>
       </div>
 
-      <!-- Depth Ruler -->
       <div class="depth-ruler">
         <div class="depth-marker" style="top: 0%">0m</div>
         <div class="depth-marker" style="top: 10%">200m</div>
         <div class="depth-marker" style="top: 35%">1,000m</div>
         <div class="depth-marker" style="top: 70%">4,000m</div>
-        <div class="depth-marker" style="top: 95%">6,000m+</div>
+        <div class="depth-marker" style="top: 90%">6,000m+</div>
       </div>
 
-      <!-- Zone Labels -->
-      <div class="zone-label" style="top: 2%">Sunlight</div>
-      <div class="zone-label" style="top: 15%">Twilight</div>
-      <div class="zone-label" style="top: 45%">Midnight</div>
-      <div class="zone-label" style="top: 80%">The Abyss</div>
+      <div class="zone-label" style="top: 2%" data-key="SunlightLabel">
+        Sunlight
+      </div>
+      <div class="zone-label" style="top: 15%" data-key="TwilightLabel">
+        Twilight
+      </div>
+      <div class="zone-label" style="top: 45%" data-key="MidnightLabel">
+        Midnight
+      </div>
+      <div class="zone-label" style="top: 80%" data-key="AbyssLabel">
+        The Abyss
+      </div>
 
-      <!-- 1. SUNLIGHT ZONE (Epipelagic) -->
+      <!-- Creatures with Target Badges + Added pos-X classes for mobile safety -->
       <div
-        class="creature-card"
-        style="top: 10%; left: 50%; transform: translateX(-50%)"
+        class="creature-card pos-center"
+        style="top: 8%; left: 50%; transform: translateX(-50%)"
         onclick="openCreature('Sea Angel', 'sunlight')"
       >
-        <img
-          src="13.png"
-          onerror="this.src='https://placehold.co/100x100?text=Sea+Angel'"
-          class="creature-img"
-        />
+        <div class="target-badge">TARGET</div>
+        <img src="../assets/images/j.png" class="creature-img" />
         <h3 class="font-bold text-sm mt-2 text-sky-200" data-key="Sea Angel">
           Sea Angel
         </h3>
         <p class="text-[10px] text-gray-400">0 - 350m</p>
       </div>
 
-      <!-- 2. TWILIGHT ZONE (Mesopelagic) -->
       <div
-        class="creature-card"
-        style="top: 20%; left: 20%"
+        class="creature-card pos-left"
+        style="top: 18%; left: 20%"
         onclick="openCreature('Megamouth Shark', 'twilight')"
       >
-        <img
-          src="11.png"
-          onerror="this.src='https://placehold.co/100x100?text=Megamouth'"
-          class="creature-img"
-        />
+        <div class="target-badge">TARGET</div>
+        <img src="../assets/images/h.png" class="creature-img" />
         <h3
           class="font-bold text-sm mt-2 text-sky-200"
           data-key="Megamouth Shark"
@@ -324,15 +438,12 @@
       </div>
 
       <div
-        class="creature-card"
+        class="creature-card pos-right"
         style="top: 25%; right: 15%"
         onclick="openCreature('Barreleye', 'twilight')"
       >
-        <img
-          src="4.png"
-          onerror="this.src='https://placehold.co/100x100?text=Barreleye'"
-          class="creature-img"
-        />
+        <div class="target-badge">TARGET</div>
+        <img src="../assets/images/a.png" class="creature-img" />
         <h3 class="font-bold text-sm mt-2 text-sky-200" data-key="Barreleye">
           Barreleye
         </h3>
@@ -340,15 +451,12 @@
       </div>
 
       <div
-        class="creature-card"
-        style="top: 30%; left: 30%"
+        class="creature-card pos-left"
+        style="top: 32%; left: 35%"
         onclick="openCreature('Vampire Squid', 'twilight')"
       >
-        <img
-          src="10.png"
-          onerror="this.src='https://placehold.co/100x100?text=Vampire'"
-          class="creature-img"
-        />
+        <div class="target-badge">TARGET</div>
+        <img src="../assets/images/g.png" class="creature-img" />
         <h3
           class="font-bold text-sm mt-2 text-sky-200"
           data-key="Vampire Squid"
@@ -358,17 +466,13 @@
         <p class="text-[10px] text-gray-400">600 - 900m</p>
       </div>
 
-      <!-- 3. MIDNIGHT ZONE (Bathypelagic) -->
       <div
-        class="creature-card"
-        style="top: 42%; right: 25%"
+        class="creature-card pos-right"
+        style="top: 45%; right: 20%"
         onclick="openCreature('Blobfish', 'midnight')"
       >
-        <img
-          src="5.png"
-          onerror="this.src='https://placehold.co/100x100?text=Blobfish'"
-          class="creature-img"
-        />
+        <div class="target-badge">TARGET</div>
+        <img src="../assets/images/b.png" class="creature-img" />
         <h3 class="font-bold text-sm mt-2 text-sky-200" data-key="Blobfish">
           Blobfish
         </h3>
@@ -376,90 +480,79 @@
       </div>
 
       <div
-        class="creature-card"
-        style="top: 50%; left: 10%"
+        class="creature-card pos-left"
+        style="top: 52%; left: 15%"
         onclick="openCreature('Atolla Jellyfish', 'midnight')"
       >
-        <img
-          src="6.png"
-          onerror="this.src='https://placehold.co/100x100?text=Atolla'"
-          class="creature-img"
-        />
+        <div class="target-badge">TARGET</div>
+        <img src="../assets/images/c.png" class="creature-img" />
         <h3
           class="font-bold text-sm mt-2 text-sky-200"
           data-key="Atolla Jellyfish"
         >
           Atolla Jellyfish
         </h3>
-        <p class="text-[10px] text-gray-400">Deep Sea</p>
+        <p class="text-[10px] text-gray-400">1000 - 4000m</p>
       </div>
 
       <div
-        class="creature-card"
-        style="top: 58%; right: 10%"
+        class="creature-card pos-right"
+        style="top: 60%; right: 10%"
         onclick="openCreature('Anglerfish', 'midnight')"
       >
-        <img
-          src="12.png"
-          onerror="this.src='https://placehold.co/100x100?text=Angler'"
-          class="creature-img"
-        />
+        <div class="target-badge">TARGET</div>
+        <img src="../assets/images/i.png" class="creature-img" />
         <h3 class="font-bold text-sm mt-2 text-sky-200" data-key="Anglerfish">
           Anglerfish
         </h3>
-        <p class="text-[10px] text-gray-400">1000m - 4000m</p>
+        <p class="text-[10px] text-gray-400">1000 - 4000m</p>
       </div>
 
       <div
-        class="creature-card"
-        style="top: 65%; left: 45%"
+        class="creature-card pos-left"
+        style="top: 68%; left: 45%"
         onclick="openCreature('Gulper Eel', 'midnight')"
       >
-        <img
-          src="8.png"
-          onerror="this.src='https://placehold.co/100x100?text=Gulper'"
-          class="creature-img"
-        />
+        <div class="target-badge">TARGET</div>
+        <img src="../assets/images/e.png" class="creature-img" />
         <h3 class="font-bold text-sm mt-2 text-sky-200" data-key="Gulper Eel">
           Gulper Eel
         </h3>
-        <p class="text-[10px] text-gray-400">500m - 3000m</p>
+        <p class="text-[10px] text-gray-400">500 - 3000m</p>
       </div>
 
-      <!-- 4. THE ABYSS (Abyssopelagic) -->
       <div
-        class="creature-card"
+        class="creature-card pos-left"
         style="top: 82%; left: 20%"
         onclick="openCreature('Dumbo Octopus', 'abyss')"
       >
-        <img
-          src="7.png"
-          onerror="this.src='https://placehold.co/100x100?text=Dumbo'"
-          class="creature-img"
-        />
+        <div class="target-badge">TARGET</div>
+        <img src="../assets/images/d.png" class="creature-img" />
         <h3
           class="font-bold text-sm mt-2 text-sky-200"
           data-key="Dumbo Octopus"
         >
           Dumbo Octopus
         </h3>
-        <p class="text-[10px] text-gray-400">3000m - 7000m</p>
+        <p class="text-[10px] text-gray-400">3000 - 7000m</p>
       </div>
 
       <div
-        class="creature-card"
-        style="top: 90%; right: 20%"
+        class="creature-card pos-right"
+        style="top: 90%; right: 25%"
         onclick="openCreature('Yeti Crab', 'abyss')"
       >
-        <img
-          src="9.png"
-          onerror="this.src='https://placehold.co/100x100?text=Yeti'"
-          class="creature-img"
-        />
+        <div class="target-badge">TARGET</div>
+        <img src="../assets/images/f.png" class="creature-img" />
         <h3 class="font-bold text-sm mt-2 text-sky-200" data-key="Yeti Crab">
           Yeti Crab
         </h3>
-        <p class="text-[10px] text-gray-400">Hydrothermal Vents</p>
+        <p class="text-[10px] text-gray-400">2200m+</p>
+      </div>
+
+      <!-- DEPLOY BUTTON SECTION -->
+      <div class="deploy-section">
+        <button id="btnDeploy" class="btn-deploy">START AR SCAN</button>
       </div>
     </div>
 
@@ -478,15 +571,20 @@
         ocean.appendChild(b);
       }
 
-      // 2. Data & Language Support
-      const lang = localStorage.getItem("siteLang") || "en";
-      const isMy = lang === "my";
+      // 2. Language Support
+      const urlParams = new URLSearchParams(window.location.search);
+      let currentLang =
+        urlParams.get("lang") || localStorage.getItem("siteLang") || "en";
 
       const translations = {
         en: {
-          Surface: "Surface",
+          MainTitle: "Mission Briefing",
           IntroText:
-            "To find the true monsters of the deep, we must leave the light behind. Scroll down to enter the Abyss.",
+            "Identify your targets in the zones below before deploying the scanner. Scroll down to the abyss.",
+          SunlightLabel: "Sunlight",
+          TwilightLabel: "Twilight",
+          MidnightLabel: "Midnight",
+          AbyssLabel: "The Abyss",
           "Sea Angel": "Sea Angel",
           "Megamouth Shark": "Megamouth Shark",
           Barreleye: "Barreleye",
@@ -499,11 +597,16 @@
           "Yeti Crab": "Yeti Crab",
           ZoneInfo: "ZONE CONTEXT",
           SurvivalStrategy: "SURVIVAL STRATEGY",
+          BtnDeploy: "START AR SCAN",
         },
         my: {
-          Surface: "Permukaan",
+          MainTitle: "Taklimat Misi",
           IntroText:
-            "Untuk mencari raksasa laut sebenar, kita mesti tinggalkan cahaya. Skrol ke bawah untuk masuki Abis.",
+            "Kenal pasti sasaran anda di zon bawah sebelum menggunakan pengimbas. Skrol ke dasar abis.",
+          SunlightLabel: "Cahaya Matahari",
+          TwilightLabel: "Senja malap",
+          MidnightLabel: "Tengah Malam",
+          AbyssLabel: "Abis gelita",
           "Sea Angel": "Bidadari Laut",
           "Megamouth Shark": "Jerung Megamouth",
           Barreleye: "Ikan Barreleye",
@@ -516,141 +619,188 @@
           "Yeti Crab": "Ketam Yeti",
           ZoneInfo: "KONTEKS ZON",
           SurvivalStrategy: "STRATEGI KELANGSUNGAN HIDUP",
+          BtnDeploy: "MULA IMBAS AR",
         },
       };
 
-      // Zone Descriptions (Scientific Context)
       const zoneData = {
         sunlight: {
-          en: "Epipelagic Zone: The only layer with enough light for plants. Creatures here are often fast, transparent, or counter-shaded to hide.",
-          my: "Zon Epipelagik: Satu-satunya lapisan dengan cahaya cukup untuk tumbuhan. Makhluk di sini pantas, lutsinar, atau ada penyamaran warna.",
+          en: "Epipelagic Zone: The surface layer where sunlight is abundant, allowing photosynthesis and supporting 90% of marine life.",
+          my: "Zon Epipelagik: Lapisan permukaan yang kaya dengan cahaya matahari, membolehkan fotosintesis dan menyokong 90% hidupan laut.",
         },
         twilight: {
-          en: "Mesopelagic Zone: A world of perpetual twilight. Animals have huge eyes to catch faint light and use bioluminescence for camouflage.",
-          my: "Zon Mesopelagik: Dunia senja abadi. Haiwan ada mata besar untuk tangkap cahaya malap dan guna bioluminesens untuk menyamar.",
+          en: "Mesopelagic Zone: Faint light reaches here, but not enough for plants. Creatures often have large eyes and bioluminescent bodies.",
+          my: "Zon Mesopelagik: Cahaya malap sampai ke sini, tetapi tidak cukup untuk tumbuhan. Haiwan sering mempunyai mata besar dan badan bercahaya.",
         },
         midnight: {
-          en: "Bathypelagic Zone: Pitch black. No sunlight reaches here. Animals are often black or red to be invisible, waiting for food to fall from above.",
-          my: "Zon Batipelagik: Gelap gelita. Tiada matahari sampai. Haiwan sering berwarna hitam atau merah untuk jadi halimunan, tunggu makanan jatuh.",
+          en: "Bathypelagic Zone: Constant darkness and freezing temperatures. Life here depends on 'marine snow' falling from the surface.",
+          my: "Zon Batipelagik: Kegelapan berterusan dan suhu sejuk beku. Hidupan di sini bergantung pada 'salji laut' yang jatuh dari permukaan.",
         },
         abyss: {
-          en: "Abyssopelagic Zone: Freezing, crushing pressure. Life moves in slow motion to save energy. This is the true alien world of Earth.",
-          my: "Zon Abisopelagik: Beku dan tekanan hancur. Hidupan bergerak perlahan untuk jimat tenaga. Ini dunia asing sebenar di Bumi.",
+          en: "Abyssopelagic Zone: Extreme pressure and near-zero temperatures. This zone covers the vast, flat plains of the deep ocean floor.",
+          my: "Zon Abisopelagik: Tekanan melampau dan suhu hampir sifar. Zon ini meliputi dataran luas di dasar lautan dalam.",
         },
       };
 
-      // Scientific/Adaptation Facts
       const creatureScience = {
         Barreleye: {
           en: [
-            "Tubular eyes point upwards to spot prey silhouettes against the faint surface light.",
-            "Green eye pigment acts as sunglasses to filter out sunlight.",
+            "Transparent head allows it to look through its forehead to spot prey silhouettes.",
+            "Tubular eyes are extremely sensitive to faint light.",
+            "It mostly remains motionless to save energy while waiting for food.",
           ],
           my: [
-            "Mata tiub menghadap ke atas untuk mengesan bayang mangsa di permukaan.",
-            "Pigmen mata hijau menapis cahaya matahari terang.",
+            "Kepala lutsinar membolehkannya melihat melalui dahi untuk mengesan bayang mangsa.",
+            "Mata tiub sangat sensitif terhadap cahaya yang sangat malap.",
+            "Ia biasanya tidak bergerak untuk menjimatkan tenaga sambil menunggu makanan.",
           ],
         },
         Blobfish: {
           en: [
-            "Flesh is less dense than water, allowing it to float without expending energy.",
-            "Lack of muscle is an advantage in high-pressure environments.",
+            "Gelatinous flesh is slightly less dense than water, allowing it to float without swimming.",
+            "Lacks a swim bladder which would collapse under intense deep-sea pressure.",
+            "It catches food simply by opening its mouth and letting edible matter float in.",
           ],
           my: [
-            "Isi kurang padat dari air, membolehkannya terapung tanpa guna tenaga.",
-            "Tiada otot adalah kelebihan di persekitaran tekanan tinggi.",
+            "Isi seperti jeli mempunyai ketumpatan sedikit rendah daripada air, membolehkannya terapung tanpa berenang.",
+            "Tiada pundi renang yang akan hancur di bawah tekanan laut dalam yang kuat.",
+            "Ia menangkap makanan hanya dengan membuka mulut dan membiarkan sisa makanan masuk.",
           ],
         },
         "Atolla Jellyfish": {
           en: [
-            "Uses 'Burglar Alarm' bioluminescence: flashes bright light to attract predators that will eat its attacker.",
-            "Red color makes it invisible in deep water.",
+            "Uses a 'Burglar Alarm' flash to attract larger predators that will eat its attacker.",
+            "The deep red color appears black in the dark, providing perfect camouflage.",
+            "It can propel itself rapidly to escape threats after flashing its lights.",
           ],
           my: [
-            "Guna bioluminesens 'Penggera Pencuri': berkelip terang untuk panggil pemangsa makan penyerangnya.",
-            "Warna merah menjadikannya halimunan.",
+            "Menggunakan kilatan 'Penggera Pencuri' untuk menarik pemangsa lebih besar bagi memakan penyerangnya.",
+            "Warna merah pekat kelihatan hitam dalam kegelapan, memberikan penyamaran sempurna.",
+            "Ia boleh memacu dirinya dengan pantas untuk melarikan diri selepas mengeluarkan cahaya.",
           ],
         },
         "Dumbo Octopus": {
           en: [
-            "Ear-like fins allow efficient, low-energy swimming in the abyss.",
-            "Swallows prey whole because it lacks the rough tongue (radula) other octopuses have.",
+            "Deepest-living of all octopus species, found at depths up to 7,000 meters.",
+            "Ear-like fins are used for flapping and graceful movement through the water.",
+            "Instead of ink, it uses mucus to confuse predators, as ink is useless in pitch black.",
           ],
           my: [
-            "Sirip telinga membolehkan renangan cekap tenaga di abis.",
-            "Telan mangsa bulat-bulat kerana tiada lidah kasar (radula).",
+            "Spesies sotong yang tinggal paling dalam, ditemui pada kedalaman sehingga 7,000 meter.",
+            "Sirip seperti telinga digunakan untuk mengepak dan bergerak anggun dalam air.",
+            "Bukannya dakwat, ia menggunakan lendir untuk mengelirukan pemangsa kerana dakwat tidak berguna dalam gelap gelita.",
           ],
         },
         "Gulper Eel": {
           en: [
-            "Massive jaw allows it to eat prey larger than itself since food is extremely rare.",
-            "Whip-like tail often features a lure to attract curiosity.",
+            "Massive expandable jaw allows it to swallow prey much larger than itself.",
+            "Its stomach can stretch to accommodate huge meals, as food is rare in the deep.",
+            "The tip of its tail features a bioluminescent organ used as a fishing lure.",
           ],
           my: [
-            "Rahang gergasi membolehkan ia makan mangsa lebih besar darinya kerana makanan jarang.",
-            "Ekor seperti cambuk ada umpan penarik.",
+            "Rahang besar yang boleh mengembang membolehkannya menelan mangsa yang jauh lebih besar daripadanya.",
+            "Perutnya boleh meregang untuk memuatkan makanan besar, kerana makanan jarang ditemui di laut dalam.",
+            "Hujung ekornya mempunyai organ bercahaya yang digunakan sebagai umpan pancing.",
           ],
         },
         "Yeti Crab": {
           en: [
-            "Grows bacteria on its hairy arms to eat (farming its own food).",
-            "Blind, relying purely on chemical sensors in dark thermal vents.",
+            "Hairy claws host colonies of bacteria, which the crab harvests and eats.",
+            "Blind and relies on chemical sensors to find hydrothermal vents.",
+            "Lives in extreme heat near vents while the surrounding water is near freezing.",
           ],
           my: [
-            "Ternak bakteria pada lengan berbulu untuk dimakan.",
-            "Buta, bergantung pada deria kimia di lubang hidroterma gelap.",
+            "Penyepit berbulu menempatkan koloni bakteria, yang dituai dan dimakan oleh ketam.",
+            "Buta dan bergantung pada penderia kimia untuk mencari lubang hidroterma.",
+            "Tinggal dalam haba melampau berhampiran lubang manakala air di sekelilingnya hampir beku.",
           ],
         },
         "Vampire Squid": {
           en: [
-            "Uses filaments to catch 'marine snow' (falling debris) instead of hunting live prey.",
-            "Can turn itself inside out to expose spiky spines for defense.",
+            "Uses sticky filaments to collect 'marine snow' (organic debris) instead of hunting.",
+            "Can turn its body inside out to show spiky 'cirri' as a defensive shield.",
+            "Produces glowing mucus from its arm tips to distract and blind predators.",
           ],
           my: [
-            "Guna filamen untuk tangkap 'salji laut' (sisa jatuh) bukannya memburu.",
-            "Boleh terbalikkan badan untuk tunjuk duri sebagai pertahanan.",
+            "Menggunakan filamen melekit untuk mengumpul 'salji laut' (sisa organik) dan bukannya memburu.",
+            "Boleh menterbalikkan badannya untuk menunjukkan 'cirri' berduri sebagai perisai pertahanan.",
+            "Menghasilkan lendir bercahaya dari hujung lengannya untuk mengalih perhatian dan membutakan pemangsa.",
           ],
         },
         "Megamouth Shark": {
           en: [
-            "Filter feeder that swims with its mouth wide open to catch plankton.",
-            "Reflective mouth tissue may attract prey in the dim light.",
+            "One of only three filter-feeding shark species in the world.",
+            "Glowing lips act as a lure to attract swarms of tiny plankton and jellyfish.",
+            "Its mouth can be up to 1.3 meters wide when fully opened.",
           ],
           my: [
-            "Pemakan penapis yang berenang mulut terbuka untuk tangkap plankton.",
-            "Tisu mulut memantul cahaya mungkin tarik perhatian mangsa.",
+            "Salah satu daripada hanya tiga spesies jerung pemakan penapis di dunia.",
+            "Bibir bercahaya bertindak sebagai umpan untuk menarik kumpulan plankton kecil dan obor-obor.",
+            "Mulutnya boleh mencapai lebar sehingga 1.3 meter apabila dibuka sepenuhnya.",
           ],
         },
         Anglerfish: {
           en: [
-            "Extreme sexual dimorphism: males attach to females as permanent parasites.",
-            "Bioluminescent lure contains symbiotic bacteria.",
+            "Females possess the iconic bioluminescent lure containing symbiotic bacteria.",
+            "Males are much smaller and fuse physically to the female as a permanent parasite.",
+            "The teeth are angled inwards to ensure prey cannot swim out of its mouth.",
           ],
           my: [
-            "Dimorfisme seksual ekstrem: jantan melekat pada betina sebagai parasit kekal.",
-            "Umpan bercahaya mengandungi bakteria simbiotik.",
+            "Betina mempunyai umpan bercahaya ikonik yang mengandungi bakteria simbiotik.",
+            "Jantan jauh lebih kecil dan melekat secara fizikal pada betina sebagai parasit kekal.",
+            "Gigi condong ke dalam untuk memastikan mangsa tidak boleh berenang keluar dari mulutnya.",
           ],
         },
         "Sea Angel": {
           en: [
-            "Modified gastropod foot evolved into wing-like structures for swimming.",
-            "Transparent body provides camouflage in the clear open ocean.",
+            "Despite looking like a fairy, it is a fierce predator of 'Sea Butterflies'.",
+            "Uses specialized hooks hidden in its head to pull prey from their shells.",
+            "Transparent body helps it stay invisible to larger predators in clear water.",
           ],
           my: [
-            "Kaki gastropod diubah suai menjadi struktur sayap untuk berenang.",
-            "Badan lutsinar memberi penyamaran di laut terbuka.",
+            "Walaupun kelihatan seperti pari-pari, ia adalah pemangsa ganas 'Rama-rama Laut'.",
+            "Menggunakan cangkuk khas yang tersembunyi di kepalanya untuk menarik mangsa dari cangkerang.",
+            "Badan lutsinar membantunya kekal halimunan kepada pemangsa yang lebih besar.",
           ],
         },
       };
 
-      // Apply Translations to Labels
-      const t = translations[isMy ? "my" : "en"];
-      document.querySelectorAll("[data-key]").forEach((el) => {
-        const key = el.getAttribute("data-key");
-        if (t[key]) el.innerText = t[key];
-      });
+      const imageMap = {
+        Barreleye: "a.png",
+        Blobfish: "b.png",
+        "Atolla Jellyfish": "c.png",
+        "Dumbo Octopus": "d.png",
+        "Gulper Eel": "e.png",
+        "Yeti Crab": "f.png",
+        "Vampire Squid": "g.png",
+        "Megamouth Shark": "h.png",
+        Anglerfish: "i.png",
+        "Sea Angel": "j.png",
+      };
 
-      // 3. Modal Logic
+      function updatePageLanguage() {
+        const isMy = currentLang === "ms" || currentLang === "my";
+        document.getElementById("langSwitch").innerText = isMy
+          ? "🌐 MY"
+          : "🌐 EN";
+        const t = translations[isMy ? "my" : "en"];
+
+        // Update Static Text
+        document.querySelectorAll("[data-key]").forEach((el) => {
+          const key = el.getAttribute("data-key");
+          if (t[key]) el.innerText = t[key];
+        });
+
+        // Update Button Text
+        document.getElementById("btnDeploy").innerText = t.BtnDeploy;
+      }
+
+      document.getElementById("langSwitch").onclick = () => {
+        currentLang = currentLang === "en" ? "my" : "en";
+        localStorage.setItem("siteLang", currentLang);
+        updatePageLanguage();
+      };
+
       const modal = document.getElementById("infoModal");
       const content = modal.querySelector(".modal-content");
       const modalImg = document.getElementById("modalImg");
@@ -659,41 +809,42 @@
       const modalZone = document.getElementById("modalZone");
       const closeBtn = document.getElementById("closeModal");
 
-      // Function called by onclick in HTML
       window.openCreature = (key, zone) => {
-        const name = t[key] || key; // Get translated name
-        const facts = creatureScience[key][isMy ? "my" : "en"];
-        const zoneText = zoneData[zone][isMy ? "my" : "en"];
-
-       // ADD THESE LINES:
-        const h3Element = document.querySelector(`h3[data-key="${key}"]`);
-        const cardImg = h3Element.closest('.creature-card').querySelector('img');
-        modalImg.src = cardImg.src;
-        modalTitle.innerText = name;
-        modalZone.innerText = zoneText;
-
-        // Build list
-        modalFacts.innerHTML = facts
+        const isMy = currentLang === "ms" || currentLang === "my";
+        const t = translations[isMy ? "my" : "en"];
+        // Adjusted path to assume this file is in ROOT
+        modalImg.src = `../assets/images/${imageMap[key]}`;
+        modalTitle.innerText = t[key] || key;
+        modalZone.innerText = zoneData[zone][isMy ? "my" : "en"];
+        modalFacts.innerHTML = creatureScience[key][isMy ? "my" : "en"]
           .map((f) => `<p class="pl-2 border-l-2 border-sky-500/50">${f}</p>`)
           .join("");
-
-        // Show Modal
         modal.classList.remove("opacity-0", "pointer-events-none");
         content.classList.remove("scale-95");
         content.classList.add("scale-100");
       };
 
-      // Close Logic
       closeBtn.onclick = () => {
         modal.classList.add("opacity-0", "pointer-events-none");
         content.classList.add("scale-95");
-        content.classList.remove("scale-100");
       };
 
-      // Close on clicking outside
-      modal.onclick = (e) => {
-        if (e.target === modal) closeBtn.click();
-      };
+      // BUTTON DEPLOY LOGIC
+      document.getElementById("btnDeploy").addEventListener("click", () => {
+        const sound = document.getElementById("clickSound");
+        sound.play().catch(() => {});
+
+        // Wait slightly for sound, then navigate
+        setTimeout(() => {
+          const instructionFile =
+            currentLang === "ms" || currentLang === "my"
+              ? "instructions-my.html"
+              : "instructions-en.html";
+          window.location.href = instructionFile;
+        }, 300);
+      });
+
+      updatePageLanguage();
     </script>
   </body>
 </html>
