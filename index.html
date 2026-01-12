@@ -4,29 +4,27 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <title>Deep Sea AR Experience</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
       rel="stylesheet"
     />
-
-   <script src="https://cdn.jsdelivr.net/npm/drag-drop-touch@1.1.0/DragDropTouch.js"></script>
     <style>
       body {
         font-family: "Poppins", sans-serif;
         margin: 0;
         overflow: hidden;
         height: 100vh;
-        /* Background remains exactly as you designed */
+        /* Update background image path if needed */
         background: url("./coding/bg-1.jpg") no-repeat center center fixed;
+        background-color: #001f3f; /* Fallback color */
         background-size: cover;
       }
 
-      /* Bubble Animation - Kept exactly as your original */
+      /* Bubble Animation */
       .bubble-container {
         position: fixed;
         top: 0;
@@ -44,26 +42,87 @@
         animation: floatUp linear infinite;
         box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
       }
-      .bubble:nth-child(1) { left: 10%; width: 15px; height: 15px; animation-duration: 12s; }
-      .bubble:nth-child(2) { left: 20%; width: 25px; height: 25px; animation-duration: 18s; }
-      .bubble:nth-child(3) { left: 30%; width: 10px; height: 10px; animation-duration: 10s; }
-      .bubble:nth-child(4) { left: 40%; width: 20px; height: 20px; animation-duration: 14s; }
-      .bubble:nth-child(5) { left: 50%; width: 30px; height: 30px; animation-duration: 20s; }
-      .bubble:nth-child(6) { left: 60%; width: 12px; height: 12px; animation-duration: 11s; }
-      .bubble:nth-child(7) { left: 70%; width: 18px; height: 18px; animation-duration: 16s; }
-      .bubble:nth-child(8) { left: 80%; width: 22px; height: 22px; animation-duration: 19s; }
-      .bubble:nth-child(9) { left: 90%; width: 14px; height: 14px; animation-duration: 13s; }
-      .bubble:nth-child(10) { left: 95%; width: 26px; height: 26px; animation-duration: 21s; }
-      
+      .bubble:nth-child(1) {
+        left: 10%;
+        width: 15px;
+        height: 15px;
+        animation-duration: 12s;
+      }
+      .bubble:nth-child(2) {
+        left: 20%;
+        width: 25px;
+        height: 25px;
+        animation-duration: 18s;
+      }
+      .bubble:nth-child(3) {
+        left: 30%;
+        width: 10px;
+        height: 10px;
+        animation-duration: 10s;
+      }
+      .bubble:nth-child(4) {
+        left: 40%;
+        width: 20px;
+        height: 20px;
+        animation-duration: 14s;
+      }
+      .bubble:nth-child(5) {
+        left: 50%;
+        width: 30px;
+        height: 30px;
+        animation-duration: 20s;
+      }
+      .bubble:nth-child(6) {
+        left: 60%;
+        width: 12px;
+        height: 12px;
+        animation-duration: 11s;
+      }
+      .bubble:nth-child(7) {
+        left: 70%;
+        width: 18px;
+        height: 18px;
+        animation-duration: 16s;
+      }
+      .bubble:nth-child(8) {
+        left: 80%;
+        width: 22px;
+        height: 22px;
+        animation-duration: 19s;
+      }
+      .bubble:nth-child(9) {
+        left: 90%;
+        width: 14px;
+        height: 14px;
+        animation-duration: 13s;
+      }
+      .bubble:nth-child(10) {
+        left: 95%;
+        width: 26px;
+        height: 26px;
+        animation-duration: 21s;
+      }
       @keyframes floatUp {
-        0% { transform: translateY(0) scale(0.1); opacity: 0; }
-        10% { opacity: 0.8; }
-        50% { opacity: 0.7; }
-        90% { opacity: 0.6; }
-        100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+        0% {
+          transform: translateY(0) scale(0.1);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.8;
+        }
+        50% {
+          opacity: 0.7;
+        }
+        90% {
+          opacity: 0.6;
+        }
+        100% {
+          transform: translateY(-100vh) scale(1.5);
+          opacity: 0;
+        }
       }
 
-      /* Glassmorphism Card - FIXED to follow phone size */
+      /* Glassmorphism Card */
       .glassmorphism-container {
         background: rgba(10, 38, 71, 0.6);
         backdrop-filter: blur(10px);
@@ -71,8 +130,7 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 16px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-        /* Scale with phone: 90% width on mobile, max 500px on desktop */
-        width: 90%;
+        width: 100%;
         max-width: 500px;
         opacity: 0;
         animation: fadeInSlideUp 1s ease-out forwards;
@@ -81,13 +139,18 @@
         justify-content: center;
         align-items: center;
       }
-      
       @keyframes fadeInSlideUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
-      /* Menu Buttons - FIXED to follow card width */
+      /* Menu Buttons */
       .animated-button {
         opacity: 0;
         animation: fadeIn 0.5s ease-out forwards;
@@ -101,24 +164,31 @@
         align-items: center;
         justify-content: center;
         line-height: 1.2;
-        /* Stretch to follow phone/card size */
-        width: 100%;
       }
-      
       .animated-button:hover {
         background-color: rgba(8, 145, 178, 0.6);
         box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
         transform: translateY(-2px);
       }
-
-      #btnStart { animation-delay: 0.8s; }
-      #btnGame { animation-delay: 1s; }
-      #btnDive { animation-delay: 1.2s; }
-      #btnTarget { animation-delay: 1.4s; }
-      
+      #btnStart {
+        animation-delay: 0.8s;
+      }
+      #btnGame {
+        animation-delay: 1s;
+      }
+      #btnDive {
+        animation-delay: 1.2s;
+      }
+      #btnTarget {
+        animation-delay: 1.4s;
+      }
       @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
 
       .floating-heading {
@@ -127,18 +197,22 @@
         color: #fff;
         text-transform: uppercase;
         letter-spacing: 0.1em;
-        text-shadow: 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5);
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.7),
+          0 0 20px rgba(0, 255, 255, 0.5);
       }
       @keyframes floatHeading {
-        0% { transform: translateY(0); }
-        100% { transform: translateY(-6px); }
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-6px);
+        }
       }
 
-      /* Controls - FIXED for mobile safe areas */
+      /* Controls */
       .control-btn {
         position: fixed;
-        /* Respects notches on iPhone */
-        top: max(15px, env(safe-area-inset-top));
+        top: 15px;
         z-index: 30;
         background: rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(4px);
@@ -149,6 +223,10 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
+      }
+      .control-btn:hover {
+        background: rgba(0, 255, 255, 0.2);
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
       }
       #langSwitch {
         right: 60px;
@@ -175,84 +253,180 @@
     <button id="langSwitch" class="control-btn">🌐 EN</button>
 
     <div class="bubble-container">
-      <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
-      <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
-      <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
+      <div class="bubble"></div>
       <div class="bubble"></div>
     </div>
 
-    <div class="h-screen w-full flex flex-col items-center justify-center p-4 relative z-10 overflow-hidden">
-      <div class="glassmorphism-container p-6 md:p-10 max-h-[85vh]">
+    <div
+      class="h-screen w-full flex flex-col items-center justify-center p-4 relative z-10 overflow-hidden"
+    >
+      <div class="glassmorphism-container p-6 md:p-10 w-full max-h-[85vh]">
         <div class="mb-4 md:mb-8 text-center">
-          <p class="text-cyan-200 tracking-wider mb-1 font-medium text-xs md:text-sm uppercase">WebAR Field Guide</p>
-          <h1 id="title" class="floating-heading text-3xl md:text-5xl mb-2 leading-tight">Into The Abyss</h1>
-          <p id="subtitle" class="text-xs md:text-base text-gray-300 italic px-2">"Exploring The Unknown Depths of Marine Life"</p>
+          <p
+            class="text-cyan-200 tracking-wider mb-1 font-medium text-xs md:text-sm uppercase"
+          >
+            WebAR
+          </p>
+          <h1
+            id="title"
+            class="floating-heading text-3xl md:text-5xl mb-2 leading-tight"
+          >
+            Into The Abyss
+          </h1>
+          <p
+            id="subtitle"
+            class="text-xs md:text-base text-gray-300 italic px-2"
+          >
+            "Exploring The Unknown Depths of Marine Life"
+          </p>
         </div>
 
         <div class="w-full space-y-2 md:space-y-3 flex flex-col items-center">
-          <a id="btnStart" href="#" class="animated-button w-full py-2.5 md:py-3.5 rounded-full">
-            <span id="txt-start-main" class="text-sm md:text-lg font-semibold tracking-wide block">Start Exploring</span>
-            <span id="txt-start-sub" class="text-[10px] md:text-xs font-light opacity-70 block mt-0.5">Begin the journey</span>
+          <a
+            id="btnStart"
+            href="#"
+            class="animated-button w-full py-2.5 md:py-3.5 rounded-full"
+          >
+            <span
+              id="txt-start-main"
+              class="text-sm md:text-lg font-semibold tracking-wide block"
+              >Start Exploring</span
+            >
+            <span
+              id="txt-start-sub"
+              class="text-[10px] md:text-xs font-light opacity-70 block mt-0.5"
+              >Begin the journey</span
+            >
           </a>
 
-          <a id="btnGame" href="#" class="animated-button w-full py-2.5 md:py-3.5 rounded-full">
-            <span id="txt-game-main" class="text-sm md:text-lg font-semibold tracking-wide block">It's Game Time</span>
-            <span id="txt-game-sub" class="text-[10px] md:text-xs font-light opacity-70 block mt-0.5">Play mini-games</span>
+          <a
+            id="btnGame"
+            href="#"
+            class="animated-button w-full py-2.5 md:py-3.5 rounded-full"
+          >
+            <span
+              id="txt-game-main"
+              class="text-sm md:text-lg font-semibold tracking-wide block"
+              >It's Game Time</span
+            >
+            <span
+              id="txt-game-sub"
+              class="text-[10px] md:text-xs font-light opacity-70 block mt-0.5"
+              >Play mini-games and gain gold badges</span
+            >
           </a>
 
-          <a id="btnDive" href="./coding/about.html" class="animated-button w-full py-2.5 md:py-3.5 rounded-full">
-            <span id="txt-dive-main" class="text-sm md:text-lg font-semibold tracking-wide block">Survival Guide 🧬</span>
-            <span id="txt-dive-sub" class="text-[10px] md:text-xs font-light opacity-70 block mt-0.5">Zones & Adaptations</span>
+          <a
+            id="btnDive"
+            href="#"
+            class="animated-button w-full py-2.5 md:py-3.5 rounded-full"
+          >
+            <span
+              id="txt-dive-main"
+              class="text-sm md:text-lg font-semibold tracking-wide block"
+              >More Informations</span
+            >
+            <span
+              id="txt-dive-sub"
+              class="text-[10px] md:text-xs font-light opacity-70 block mt-0.5"
+              >Creature's Survival Guide</span
+            >
           </a>
 
-          <a id="btnTarget" href="./coding/targets.html" class="animated-button w-full py-2.5 md:py-3.5 rounded-full">
-            <span id="txt-target-main" class="text-sm md:text-lg font-semibold tracking-wide block">Needs A Target?</span>
-            <span id="txt-target-sub" class="text-[10px] md:text-xs font-light opacity-70 block mt-0.5">Get AR Marker</span>
+          <a
+            id="btnTarget"
+            href="#"
+            class="animated-button w-full py-2.5 md:py-3.5 rounded-full border-cyan-500/50"
+          >
+            <span
+              id="txt-target-main"
+              class="text-sm md:text-lg font-semibold tracking-wide block text-cyan-200"
+              >Assets</span
+            >
+            <span
+              id="txt-target-sub"
+              class="text-[10px] md:text-xs font-light opacity-70 block mt-0.5"
+              >Get AR Markers</span
+            >
           </a>
         </div>
       </div>
+
       <div class="h-16 md:h-20 shrink-0"></div>
     </div>
 
-    <footer class="fixed bottom-0 left-0 w-full p-3 md:p-4 text-center text-[10px] md:text-xs text-gray-300 bg-black/30 backdrop-blur-md z-20 border-t border-white/5">
+    <footer
+      class="fixed bottom-0 left-0 w-full p-3 md:p-4 text-center text-[10px] md:text-xs text-gray-300 bg-black/30 backdrop-blur-md z-20 border-t border-white/5"
+    >
       <div class="max-w-screen-lg mx-auto">
-        <p class="font-semibold text-cyan-100 mb-0.5" id="footer1">A Final Year Project by:</p>
-        <p id="footer2" class="mb-0.5 tracking-wide">Alia Azwa Binti Mohd Kamal & Sharifah Nuraini Binti Gulam</p>
-        <p id="footer3" class="opacity-70 transform scale-95 origin-center">Faculty of Computing and Informatics, Universiti Malaysia Sabah</p>
+        <p class="font-semibold text-cyan-100 mb-0.5" id="footer1">
+          A Final Year Project by:
+        </p>
+        <p id="footer2" class="mb-0.5 tracking-wide">
+          Alia Azwa Binti Mohd Kamal & Sharifah Nuraini Binti Gulam
+        </p>
+        <p id="footer3" class="opacity-70 transform scale-95 origin-center">
+          Faculty of Computing and Informatics, Universiti Malaysia Sabah
+        </p>
       </div>
     </footer>
 
     <script>
+      /* --- 1. LANGUAGE & LOGIC --- */
       let currentLang = localStorage.getItem("siteLang") || "en";
+      // Set HTML lang immediately
       document.documentElement.lang = currentLang;
 
       const translations = {
         en: {
           subtitle: `"Exploring The Unknown Depths of Marine Life"`,
+
           startMain: "Start Exploring",
           startSub: "Begin the journey",
-          linkStart: "./coding/instructions-en.html",
+
+          // MODIFIED: Point to about.html
+          linkStart: "./coding/about.html",
+
           gameMain: "It's Game Time",
           gameSub: "Play mini-games",
-          diveMain: "Survival Guide ",
-          diveSub: "Zones & Adaptations",
+
+          diveMain: "The Descent",
+          diveSub: "Find out more informations",
+
           targetMain: "AR Assets",
-          targetSub: "Get AR Marker",
+          targetSub: "Get AR Markers",
+
           footer1: "A Final Year Project by:",
-          footer3: "Faculty of Computing and Informatics, Universiti Malaysia Sabah",
+          footer3:
+            "Faculty of Computing and Informatics, Universiti Malaysia Sabah",
           toggleLabel: "🌐 EN",
         },
         my: {
           subtitle: `"Menerokai Keunikan Hidupan Laut Dalam"`,
+
           startMain: "Mula Meneroka",
           startSub: "Mulakan perjalanan",
-          linkStart: "./coding/instructions-my.html",
+
+          // MODIFIED: Point to about.html
+          linkStart: "./coding/about.html",
+
           gameMain: "Masa Bermain",
           gameSub: "Main permainan mini",
-          diveMain: "Panduan Hidup",
-          diveSub: "Zon & Adaptasi",
+
+          diveMain: "Turun ke Dasar",
+          diveSub: "Ketahui lebih lanjut",
+
           targetMain: "Aset AR",
           targetSub: "Dapatkan Penanda AR",
+
           footer1: "Projek Tahun Akhir oleh:",
           footer3: "Fakulti Pengkomputeran dan Informatik, UMS",
           toggleLabel: "🌐 MY",
@@ -261,65 +435,105 @@
 
       function updateLanguage() {
         const t = translations[currentLang];
+
+        // Update Text Content
         document.getElementById("subtitle").textContent = t.subtitle;
+
         document.getElementById("txt-start-main").textContent = t.startMain;
         document.getElementById("txt-start-sub").textContent = t.startSub;
-        document.getElementById("btnStart").href = t.linkStart;
+
         document.getElementById("txt-game-main").textContent = t.gameMain;
         document.getElementById("txt-game-sub").textContent = t.gameSub;
+
         document.getElementById("txt-dive-main").textContent = t.diveMain;
         document.getElementById("txt-dive-sub").textContent = t.diveSub;
+
         document.getElementById("txt-target-main").textContent = t.targetMain;
         document.getElementById("txt-target-sub").textContent = t.targetSub;
+
         document.getElementById("footer1").textContent = t.footer1;
         document.getElementById("footer3").textContent = t.footer3;
         document.getElementById("langSwitch").textContent = t.toggleLabel;
+
+        // --- UPDATED LINK LOGIC: PASS PARAMETERS ---
+        // 1. Start Button (Links to about.html with lang param)
+        document.getElementById(
+          "btnStart"
+        ).href = `${t.linkStart}?lang=${currentLang}`;
+
+        // 2. Game Button (Passes ?lang=...)
+        document.getElementById(
+          "btnGame"
+        ).href = `./coding/mygame.html?lang=${currentLang}`;
+
+        // 3. Dive/About Button (Passes ?lang=...)
+        document.getElementById(
+          "btnDive"
+        ).href = `./coding/about.html?lang=${currentLang}`;
+
+        // 4. Target Button (Passes ?lang=...)
+        document.getElementById(
+          "btnTarget"
+        ).href = `./coding/targets.html?lang=${currentLang}`;
+
+        // Save to Storage
         localStorage.setItem("siteLang", currentLang);
       }
 
+      // --- 2. EVENT LISTENERS ---
+
+      // Language Switcher
       document.getElementById("langSwitch").onclick = () => {
         currentLang = currentLang === "en" ? "my" : "en";
         updateLanguage();
       };
 
+      // Standard Button Clicks - Add Sound Effect
       const playClickSound = () => {
         const sound = document.getElementById("clickSound");
         sound.currentTime = 0;
         sound.play().catch(() => {});
       };
 
-      document.getElementById("btnGame").onclick = (e) => {
-        e.preventDefault();
-        playClickSound();
-        setTimeout(() => { window.location.href = `./coding/mygame.html?lang=${currentLang}`; }, 150);
-      };
-
-      document.querySelectorAll("a:not(#btnGame)").forEach((btn) => {
+      // Attach sound to all main menu links
+      document.querySelectorAll(".animated-button").forEach((btn) => {
         btn.addEventListener("click", (e) => {
-          e.preventDefault();
+          // We let the href work naturally now because we set it in updateLanguage()
+          // Just play sound and allow navigation
           playClickSound();
-          setTimeout(() => { window.location.href = btn.href; }, 150);
+          // Optional: slight delay for sound if needed, but modern browsers might block delay-nav
         });
       });
 
+      // Initialize Text & Links
       updateLanguage();
 
+      // Audio Logic
       const music = document.getElementById("bgMusic");
       const muteBtn = document.getElementById("muteBtn");
       let isMuted = false;
       let started = false;
 
-      document.addEventListener("click", () => {
-        if (!started && !isMuted) {
-          music.volume = 0.6;
-          music.play().catch(() => {});
-          started = true;
-        }
-      }, { once: true });
+      document.addEventListener(
+        "click",
+        () => {
+          if (!started && !isMuted) {
+            music.volume = 0.6;
+            music.play().catch(() => {});
+            started = true;
+          }
+        },
+        { once: true }
+      );
 
       muteBtn.onclick = () => {
-        if (isMuted) { music.play(); muteBtn.textContent = "🔊"; }
-        else { music.pause(); muteBtn.textContent = "🔇"; }
+        if (isMuted) {
+          music.play();
+          muteBtn.textContent = "🔊";
+        } else {
+          music.pause();
+          muteBtn.textContent = "🔇";
+        }
         isMuted = !isMuted;
       };
     </script>
