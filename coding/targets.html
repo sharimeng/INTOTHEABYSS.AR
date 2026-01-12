@@ -14,6 +14,7 @@
     <style>
       body {
         font-family: "Poppins", sans-serif;
+        /* Background Image Path */
         background-image: url("../assets/images/bg-1.jpg");
         background-size: cover;
         background-position: center;
@@ -101,29 +102,39 @@
     ></audio>
     <audio id="clickSound" src="../assets/audio/click-sound.mp3"></audio>
 
-    <div
-      class="flex justify-between items-center absolute top-6 left-6 right-6 z-40"
+    <a
+      href="../index.html"
+      class="fixed top-6 left-6 z-50 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 hover:scale-110 transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)] group"
     >
-      <a
-        href="../index.html"
-        class="text-cyan-300 text-lg hover:text-white flex items-center gap-2"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6 group-hover:-translate-x-1 transition-transform"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
       >
-        ← <span id="txt-back">Back</span>
-      </a>
-      <div class="flex items-center gap-4">
-        <button
-          id="langSwitch"
-          class="control-btn px-4 py-2 rounded-full font-semibold text-sm"
-        >
-          🌐 EN
-        </button>
-        <button
-          id="muteBtn"
-          class="control-btn w-10 h-10 rounded-full flex items-center justify-center text-xl"
-        >
-          🔊
-        </button>
-      </div>
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M10 19l-7-7m0 0l7-7m-7 7h18"
+        />
+      </svg>
+    </a>
+
+    <div class="fixed top-6 right-6 z-50 flex items-center gap-4">
+      <button
+        id="langSwitch"
+        class="control-btn px-4 py-2 rounded-full font-semibold text-sm"
+      >
+        🌐 EN
+      </button>
+      <button
+        id="muteBtn"
+        class="control-btn w-10 h-10 rounded-full flex items-center justify-center text-xl"
+      >
+        🔊
+      </button>
     </div>
 
     <div class="min-h-screen flex items-center justify-center p-4 py-20">
@@ -140,17 +151,18 @@
               id="opt1-title"
               class="text-xl font-semibold text-cyan-300 mb-1"
             >
-              Option 1: Complete Field Guide
+              Option 1: Digital Interactive Guide
             </h2>
             <p id="opt1-desc" class="text-sm text-gray-300 mb-4">
-              Download the full flipbook containing all information and markers.
+              Access the complete interactive AR booklet online as a flipbook. No download
+              required!
             </p>
             <a
-              href="../assets/field-guide.pdf"
-              download
+              href="https://heyzine.com/flip-book/d1845d6f22.html"
+              target="_blank"
               class="inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-500 text-white px-8 py-2 rounded-full transition-all font-semibold shadow-lg"
             >
-              <span>📖</span> <span id="opt1-btn">Download Flipbook</span>
+              <span>📖</span> <span id="opt1-btn">Open Flipbook</span>
             </a>
           </div>
 
@@ -210,12 +222,12 @@
 
       const textContent = {
         en: {
-          back: "Back",
           titleMain: "AR Assets",
-          opt1Title: "Option 1: Complete Field Guide",
+          opt1Title: "Option 1: Digital Interactive Guide",
           opt1Desc:
-            "Download the full flipbook containing all information and markers.",
-          opt1Btn: "Download Flipbook",
+            "Access the complete interactive AR booklet online as a flipbook. No download required!",
+          opt1Btn: "Open Flipbook",
+
           txtOr: "OR",
           opt2Title: "Option 2: Individual Markers",
           opt2Desc:
@@ -225,12 +237,12 @@
             "Faculty of Computing and Informatics, Universiti Malaysia Sabah",
         },
         my: {
-          back: "Kembali",
           titleMain: "Aset AR",
-          opt1Title: "Pilihan 1: Buku Panduan Lengkap",
+          opt1Title: "Pilihan 1: Panduan Interaktif Digital",
           opt1Desc:
-            "Muat turun buku flip penuh yang mengandungi semua maklumat dan penanda.",
-          opt1Btn: "Muat Turun Buku Flip",
+            "Akses risalah secara dalam talian. Tiada muat turun diperlukan!",
+          opt1Btn: "Buka Buku Flip",
+
           txtOr: "ATAU",
           opt2Title: "Pilihan 2: Penanda Individu",
           opt2Desc:
@@ -245,6 +257,7 @@
         container.innerHTML = "";
         creatures.forEach((c) => {
           const name = currentLang === "en" ? c.en : c.my;
+          // Path dynamically uses IDs 4 to 13
           container.innerHTML += `
             <div class="text-center">
               <a href="../assets/images/${c.id}.png" download onclick="playClick()">
@@ -258,7 +271,6 @@
 
       function updateLanguage() {
         const t = textContent[currentLang];
-        document.getElementById("txt-back").textContent = t.back;
         document.getElementById("title-main").textContent = t.titleMain;
         document.getElementById("opt1-title").textContent = t.opt1Title;
         document.getElementById("opt1-desc").textContent = t.opt1Desc;
