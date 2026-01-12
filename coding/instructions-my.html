@@ -27,7 +27,9 @@
       body {
         margin: 0;
         font-family: "Poppins", sans-serif;
-        background: url("bg-1.jpg") no-repeat center center fixed;
+        /* Matches English version background */
+        background: url("../assets/images/bg-1.jpg") no-repeat center center
+          fixed;
         background-size: cover;
         color: white;
       }
@@ -126,6 +128,7 @@
   </head>
 
   <body>
+    <!-- Audio Files (Ensure these exist in coding folder) -->
     <audio id="bgMusic" src="bg-audio.mp3" loop></audio>
     <audio id="clickSound" src="button.mp3"></audio>
 
@@ -192,7 +195,7 @@
                 2
               </div>
               <p class="ml-5 text-lg">
-                Halakan kamera ke penanda makhluk laut dalam.
+                Halakan kamera anda ke arah penanda (marker) setiap makhluk.
               </p>
             </div>
 
@@ -203,13 +206,14 @@
                 3
               </div>
               <p class="ml-5 text-lg">
-                Lihat makhluk laut dalam muncul secara 3D.
+                Lihat makhluk laut dalam muncul dalam 3D.
               </p>
             </div>
           </div>
 
+          <!-- Links to explore.html with Malay language parameter -->
           <a
-            href="explore-my.html"
+            href="explore.html?lang=my"
             class="start-btn block text-center text-white font-bold py-4 rounded-full text-xl shadow-lg"
           >
             Mula Kamera
@@ -260,7 +264,7 @@
         });
       });
 
-      // Ensure site lang is set to Malay
+      // Save language preference
       localStorage.setItem("siteLang", "my");
     </script>
   </body>
