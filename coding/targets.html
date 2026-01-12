@@ -14,7 +14,6 @@
     <style>
       body {
         font-family: "Poppins", sans-serif;
-        /* Background Image Path */
         background-image: url("../assets/images/bg-1.jpg");
         background-size: cover;
         background-position: center;
@@ -154,7 +153,7 @@
               Option 1: Digital Interactive Guide
             </h2>
             <p id="opt1-desc" class="text-sm text-gray-300 mb-4">
-              Access the complete interactive AR booklet online as a flipbook. No download
+              Access the complete field guide online as a flipbook. No download
               required!
             </p>
             <a
@@ -223,6 +222,7 @@
       const textContent = {
         en: {
           titleMain: "AR Assets",
+          // Wording changed nicely for website link
           opt1Title: "Option 1: Digital Interactive Guide",
           opt1Desc:
             "Access the complete interactive AR booklet online as a flipbook. No download required!",
@@ -238,6 +238,7 @@
         },
         my: {
           titleMain: "Aset AR",
+          // Malay Translation for Web Flipbook
           opt1Title: "Pilihan 1: Panduan Interaktif Digital",
           opt1Desc:
             "Akses risalah secara dalam talian. Tiada muat turun diperlukan!",
@@ -257,7 +258,6 @@
         container.innerHTML = "";
         creatures.forEach((c) => {
           const name = currentLang === "en" ? c.en : c.my;
-          // Path dynamically uses IDs 4 to 13
           container.innerHTML += `
             <div class="text-center">
               <a href="../assets/images/${c.id}.png" download onclick="playClick()">
@@ -271,6 +271,7 @@
 
       function updateLanguage() {
         const t = textContent[currentLang];
+        // NOTE: "back" text is removed because we use an icon now, so we don't update txt-back
         document.getElementById("title-main").textContent = t.titleMain;
         document.getElementById("opt1-title").textContent = t.opt1Title;
         document.getElementById("opt1-desc").textContent = t.opt1Desc;
