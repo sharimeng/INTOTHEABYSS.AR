@@ -11,10 +11,8 @@ const THREE = window.MINDAR.IMAGE.THREE;
 const modelNames = ["Barreleye","Blobfish","Atolla Jellyfish","Dumbo Octopus","Gulper Eel",
   "Yeti Crab","Vampire Squid","Deep-sea Shark","Anglerfish","Sea Angel"];
 
-// 1. Detect Language from URL (e.g., ?lang=ms)
 const urlParams = new URLSearchParams(window.location.search);
 const langParam = urlParams.get('lang'); 
-// Default to 'en' if no language is specified
 let currentLanguage = (langParam === 'ms' || langParam === 'my') ? 'ms' : 'en';
 
 console.log("Current Language Mode:", currentLanguage);
@@ -28,7 +26,7 @@ const uiLabels = {
         factBtn: "📘 INTERESTING FACT ✨",
         instructionTitle: "👆 INTERACTION",
         tap1: "Tap 1x:",
-        tap1Action: "Action + Talk",
+        tap1Action: "Light + Action + Talk",
         tap2: "Tap 2x:",
         tap2Action: "Interact",
         gestures: "🤏 Pinch to Zoom | 👆 Drag to Rotate"
@@ -40,7 +38,7 @@ const uiLabels = {
         factBtn: "📘 FAKTA MENARIK ✨",
         instructionTitle: "👆 INTERAKSI",
         tap1: "Tekan 1x:",
-        tap1Action: "Aksi + Cakap",
+        tap1Action: "Lampu + Aksi + Cakap",
         tap2: "Tekan 2x:",
         tap2Action: "Berinteraksi",
         gestures: "🤏 Cubit: Zum | 👆 Seret: Pusing"
@@ -50,146 +48,28 @@ const uiLabels = {
 // 3. Narration Scripts (English & Malay)
 const narrationText = {
   en: [
-    // 0. Barreleye
-    `<b>SPECIES:</b> Barreleye Fish (<i>Macropinna microstoma</i>)<br>
-    <b>DEPTH:</b> 600 – 800m<br><br>
-    <i>“My head is see-through, and my eyes glow!”</i><br>
-    Its transparent head is filled with jelly, and its glowing green eyes can rotate to see prey above — through its own forehead!<br><br>
-    <span style='color:#0ea5e9'>★ FUN FACT:</span> It spots the shadows of jellyfish above even in the darkest places!`,
-
-    // 1. Blobfish
-    `<b>SPECIES:</b> Blobfish (<i>Psychrolutes marcidus</i>)<br>
-    <b>DEPTH:</b> 600 – 1,200m<br><br>
-    <i>“I’m not ugly — I’m just under pressure!”</i><br>
-    It looks squishy on land, but in the deep ocean, it’s just right. It doesn’t swim — it floats and waits for snacks!<br><br>
-    <span style='color:#0ea5e9'>★ FUN FACT:</span> It has no muscles! It lets the ocean do the work while it relaxes.`,
-
-    // 2. Atolla Jellyfish
-    `<b>SPECIES:</b> Atolla Jellyfish (<i>Atolla wyvillei</i>)<br>
-    <b>DEPTH:</b> 1,000 – 4,000m<br><br>
-    <i>“When I’m attacked, I light up!”</i><br>
-    It flashes red and blue lights in the dark ocean to scare predators or call for help.<br><br>
-    <span style='color:#0ea5e9'>★ FUN FACT:</span> Its blinking light trick is called the 'burglar alarm' strategy!`,
-
-    // 3. Dumbo Octopus
-    `<b>SPECIES:</b> Dumbo Octopus (<i>Grimpoteuthis spp.</i>)<br>
-    <b>DEPTH:</b> 3,000 – 7,000m<br><br>
-    <i>“I flap my fins like ears and float like I’m flying!”</i><br>
-    With its round head and big floppy fins, it looks like a cartoon flying underwater in the darkest parts of the ocean.<br><br>
-    <span style='color:#0ea5e9'>★ FUN FACT:</span> It lives so deep that it doesn’t even need ink — it’s already pitch black!`,
-
-    // 4. Gulper Eel
-    `<b>SPECIES:</b> Gulper Eel (<i>Eurypharynx pelecanoides</i>)<br>
-    <b>DEPTH:</b> 500 – 3,000m<br><br>
-    <i>“My mouth is bigger than my body!”</i><br>
-    It has a long tail and a balloon-like mouth that can open wide enough to swallow prey much larger than its head.<br><br>
-    <span style='color:#0ea5e9'>★ FUN FACT:</span> It can unhinge its jaw like a pelican and has a glowing tip on its tail!`,
-
-    // 5. Yeti Crab
-    `<b>SPECIES:</b> Yeti Crab (<i>Kiwa hirsuta</i>)<br>
-    <b>DEPTH:</b> ~2,200m<br><br>
-    <i>“I grow food on my claws!”</i><br>
-    This crab waves its hairy arms to grow bacteria, which it later eats — like farming underwater.<br><br>
-    <span style='color:#0ea5e9'>★ FUN FACT:</span> It was only discovered in 2005, and it has no eyes!`,
-
-    // 6. Vampire Squid
-    `<b>SPECIES:</b> Vampire Squid (<i>Vampyroteuthis infernalis</i>)<br>
-    <b>DEPTH:</b> 600 – 900m<br><br>
-    <i>“I don’t bite — I just glow and go!”</i><br>
-    It uses glowing lights and wraps itself in webbed arms to escape danger like a deep-sea superhero.<br><br>
-    <span style='color:#0ea5e9'>★ FUN FACT:</span> Despite the name, it doesn’t drink blood — it eats drifting bits of ocean goo!`,
-
-    // 7. Megamouth Shark (Deep-sea Shark)
-    `<b>SPECIES:</b> Megamouth Shark (<i>Megachasma pelagios</i>)<br>
-    <b>DEPTH:</b> 120 – 1,500m<br><br>
-    <i>“I swim with my giant mouth wide open!”</i><br>
-    This slow-swimming shark filters plankton with its huge, glowing lips. It’s one of the ocean’s rarest and most mysterious sharks.<br><br>
-    <span style='color:#0ea5e9'>★ FUN FACT:</span> It was only discovered in 1976 — and fewer than 100 have ever been seen!`,
-
-    // 8. Anglerfish
-    `<b>SPECIES:</b> Anglerfish (<i>Lophiiformes</i>)<br>
-    <b>DEPTH:</b> 300 – 1,600m<br><br>
-    <i>“I light up the dark to hunt!”</i><br>
-    In the deep, dark sea, the anglerfish waves a glowing lure from her head like a built-in fishing rod. Small fish think it’s food and swim closer... and then SNAP!<br><br>
-    <span style='color:#0ea5e9'>★ FUN FACT:</span> The male anglerfish is super tiny and actually fuses to the female like a living attachment — for life!`,
-
-    // 9. Sea Angel
-    `<b>SPECIES:</b> Sea Angel (<i>Clione limacina</i>)<br>
-    <b>DEPTH:</b> 100 – 1,000m<br><br>
-    <i>“I’m tiny, glowing, and graceful — but I’m a hunter too!”</i><br>
-    This small glowing creature floats like a fairy, but it’s quick and catches prey with hidden hooks.<br><br>
-    <span style='color:#0ea5e9'>★ FUN FACT:</span> It hunts sea butterflies and can outswim much bigger animals!`
+    `<b>SPECIES:</b> Barreleye Fish (<i>Macropinna microstoma</i>)<br><b>DEPTH:</b> 600 – 800m<br><br><i>“My head is see-through, and my eyes glow!”</i><br>Its transparent head is filled with jelly, and its glowing green eyes can rotate to see prey above.<br><br><span style='color:#0ea5e9'>★ FUN FACT:</span> It spots the shadows of jellyfish above even in the darkest places!`,
+    `<b>SPECIES:</b> Blobfish (<i>Psychrolutes marcidus</i>)<br><b>DEPTH:</b> 600 – 1,200m<br><br><i>“I’m not ugly — I’m just under pressure!”</i><br>It looks squishy on land, but in the deep ocean, it’s just right.<br><br><span style='color:#0ea5e9'>★ FUN FACT:</span> It has no muscles! It lets the ocean do the work while it relaxes.`,
+    `<b>SPECIES:</b> Atolla Jellyfish (<i>Atolla wyvillei</i>)<br><b>DEPTH:</b> 1,000 – 4,000m<br><br><i>“When I’m attacked, I light up!”</i><br>It flashes red and blue lights in the dark ocean to scare predators.<br><br><span style='color:#0ea5e9'>★ FUN FACT:</span> Its blinking light trick is called the 'burglar alarm' strategy!`,
+    `<b>SPECIES:</b> Dumbo Octopus (<i>Grimpoteuthis spp.</i>)<br><b>DEPTH:</b> 3,000 – 7,000m<br><br><i>“I flap my fins like ears and float like I’m flying!”</i><br>With its round head and big floppy fins, it looks like a cartoon.<br><br><span style='color:#0ea5e9'>★ FUN FACT:</span> It lives so deep that it doesn’t even need ink — it’s already pitch black!`,
+    `<b>SPECIES:</b> Gulper Eel (<i>Eurypharynx pelecanoides</i>)<br><b>DEPTH:</b> 500 – 3,000m<br><br><i>“My mouth is bigger than my body!”</i><br>It has a long tail and a balloon-like mouth.<br><br><span style='color:#0ea5e9'>★ FUN FACT:</span> It can unhinge its jaw like a pelican and has a glowing tip on its tail!`,
+    `<b>SPECIES:</b> Yeti Crab (<i>Kiwa hirsuta</i>)<br><b>DEPTH:</b> ~2,200m<br><br><i>“I grow food on my claws!”</i><br>This crab waves its hairy arms to grow bacteria.<br><br><span style='color:#0ea5e9'>★ FUN FACT:</span> It was only discovered in 2005, and it has no eyes!`,
+    `<b>SPECIES:</b> Vampire Squid (<i>Vampyroteuthis infernalis</i>)<br><b>DEPTH:</b> 600 – 900m<br><br><i>“I don’t bite — I just glow and go!”</i><br>It uses glowing lights and wraps itself in webbed arms.<br><br><span style='color:#0ea5e9'>★ FUN FACT:</span> Despite the name, it doesn’t drink blood — it eats drifting bits of ocean goo!`,
+    `<b>SPECIES:</b> Megamouth Shark (<i>Megachasma pelagios</i>)<br><b>DEPTH:</b> 120 – 1,500m<br><br><i>“I swim with my giant mouth wide open!”</i><br>This slow-swimming shark filters plankton with its huge, glowing lips.<br><br><span style='color:#0ea5e9'>★ FUN FACT:</span> It was only discovered in 1976 — and fewer than 100 have ever been seen!`,
+    `<b>SPECIES:</b> Anglerfish (<i>Lophiiformes</i>)<br><b>DEPTH:</b> 300 – 1,600m<br><br><i>“I light up the dark to hunt!”</i><br>The anglerfish waves a glowing lure from her head.<br><br><span style='color:#0ea5e9'>★ FUN FACT:</span> The male anglerfish is super tiny and fuses to the female!`,
+    `<b>SPECIES:</b> Sea Angel (<i>Clione limacina</i>)<br><b>DEPTH:</b> 100 – 1,000m<br><br><i>“I’m tiny, glowing, and graceful — but I’m a hunter too!”</i><br>This small glowing creature floats like a fairy.<br><br><span style='color:#0ea5e9'>★ FUN FACT:</span> It hunts sea butterflies and can outswim much bigger animals!`
   ],
   ms: [
-    // 0. Barreleye
-    `<b>SPESIES:</b> Ikan Barreleye (<i>Macropinna microstoma</i>)<br>
-    <b>KEDALAMAN:</b> 600 – 800m<br><br>
-    <i>“Kepala saya lutsinar, dan mata saya bercahaya!”</i><br>
-    Kepalanya dipenuhi gel seperti jeli, dan matanya yang hijau boleh berpusing ke atas untuk melihat mangsa — melalui dahinya sendiri!<br><br>
-    <span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Ia boleh mengesan bayang obor-obor walaupun dalam kegelapan!`,
-
-    // 1. Blobfish
-    `<b>SPESIES:</b> Blobfish (<i>Psychrolutes marcidus</i>)<br>
-    <b>KEDALAMAN:</b> 600 – 1,200m<br><br>
-    <i>“Saya bukan hodoh — saya cuma di bawah tekanan!”</i><br>
-    Ia kelihatan lembik di darat, tetapi di laut dalam, ia sempurna. Ia tidak berenang — cuma terapung dan menunggu makanan!<br><br>
-    <span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Ia tiada otot! Ia hanya biarkan arus laut bekerja untuknya.`,
-
-    // 2. Atolla Jellyfish
-    `<b>SPESIES:</b> Obor-obor Atolla (<i>Atolla wyvillei</i>)<br>
-    <b>KEDALAMAN:</b> 1,000 – 4,000m<br><br>
-    <i>“Bila diserang, saya menyala!”</i><br>
-    Ia menyala merah dan biru untuk menakutkan pemangsa atau memanggil bantuan.<br><br>
-    <span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Trik kilatannya dipanggil strategi 'penggera pencuri'!`,
-
-    // 3. Dumbo Octopus
-    `<b>SPESIES:</b> Dumbo Octopus (<i>Grimpoteuthis spp.</i>)<br>
-    <b>KEDALAMAN:</b> 3,000 – 7,000m<br><br>
-    <i>“Saya mengepakkan sirip seperti telinga dan terapung seperti terbang!”</i><br>
-    Dengan kepala bulat dan sirip besar yang lembut, ia kelihatan seperti kartun yang terbang di dasar laut yang gelap.<br><br>
-    <span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Ia tinggal begitu dalam sehingga tidak perlukan dakwat — sudah pun gelap sepenuhnya!`,
-
-    // 4. Gulper Eel
-    `<b>SPESIES:</b> Belut Gulper (<i>Eurypharynx pelecanoides</i>)<br>
-    <b>KEDALAMAN:</b> 500 – 3,000m<br><br>
-    <i>“Mulut saya lebih besar dari badan saya!”</i><br>
-    Ia mempunyai ekor panjang dan mulut seperti belon yang boleh dibuka besar untuk menelan mangsa lebih besar dari kepalanya.<br><br>
-    <span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Ia boleh membuka rahangnya seperti burung pelikan dan mempunyai cahaya di hujung ekornya!`,
-
-    // 5. Yeti Crab
-    `<b>SPESIES:</b> Ketam Yeti (<i>Kiwa hirsuta</i>)<br>
-    <b>KEDALAMAN:</b> ~2,200m<br><br>
-    <i>“Saya tanam makanan atas tangan saya!”</i><br>
-    Ketam berbulu ini mengayunkan ‘tangan’ berbulu untuk menumbuhkan bakteria — dan kemudian memakannya.<br><br>
-    <span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Ia baru sahaja ditemui pada tahun 2005 — dan ia tidak mempunyai mata!`,
-
-    // 6. Vampire Squid
-    `<b>SPESIES:</b> Sotong Vampire (<i>Vampyroteuthis infernalis</i>)<br>
-    <b>KEDALAMAN:</b> 600 – 900m<br><br>
-    <i>“Saya tidak menggigit — saya cuma bersinar dan pergi!”</i><br>
-    Ia gunakan cahaya bercahaya dan membalut diri dengan lengan berjala untuk melarikan diri seperti wira laut dalam.<br><br>
-    <span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Walaupun namanya menakutkan, ia tidak hisap darah — cuma makan sisa lautan!`,
-
-    // 7. Megamouth Shark
-    `<b>SPESIES:</b> Jerung Megamouth (<i>Megachasma pelagios</i>)<br>
-    <b>KEDALAMAN:</b> 120 – 1,500m<br><br>
-    <i>“Saya berenang dengan mulut gergasi terbuka luas!”</i><br>
-    Jerung yang berenang perlahan ini menapis plankton dengan bibir besar yang bercahaya. Ia adalah salah satu jerung paling jarang dan misteri di lautan.<br><br>
-    <span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Ia hanya ditemui pada tahun 1976 — dan kurang daripada 100 ekor pernah dilihat!`,
-
-    // 8. Anglerfish
-    `<b>SPESIES:</b> Anglerfish (<i>Lophiiformes</i>)<br>
-    <b>KEDALAMAN:</b> 300 – 1,600m<br><br>
-    <i>“Saya menyinari kegelapan untuk memburu!”</i><br>
-    Di laut dalam yang gelap, anglerfish menggoyangkan umpan bercahaya dari kepalanya seperti joran. Ikan kecil fikir ia makanan dan berenang lebih dekat... kemudian CEPAT!<br><br>
-    <span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Anglerfish jantan sangat kecil dan akan melekat pada anglerfish betina seumur hidup!`,
-
-    // 9. Sea Angel
-    `<b>SPESIES:</b> Malaikat Laut (<i>Clione limacina</i>)<br>
-    <b>KEDALAMAN:</b> 100 – 1,000m<br><br>
-    <i>“Saya kecil, bercahaya dan anggun — tapi saya juga pemburu!”</i><br>
-    Ia kelihatan seperti pari-pari yang bersinar, tetapi ia tangkas dan mempunyai cangkuk tersembunyi untuk menangkap mangsa.<br><br>
-    <span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Ia memburu rama-rama laut dan boleh berenang lebih laju dari haiwan besar!`
+    `<b>SPESIES:</b> Ikan Barreleye (<i>Macropinna microstoma</i>)<br><b>KEDALAMAN:</b> 600 – 800m<br><br><i>“Kepala saya lutsinar, dan mata saya bercahaya!”</i><br>Kepalanya dipenuhi gel seperti jeli.<br><br><span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Ia boleh mengesan bayang obor-obor walaupun dalam kegelapan!`,
+    `<b>SPESIES:</b> Blobfish (<i>Psychrolutes marcidus</i>)<br><b>KEDALAMAN:</b> 600 – 1,200m<br><br><i>“Saya bukan hodoh — saya cuma di bawah tekanan!”</i><br>Ia kelihatan lembik di darat, tetapi di laut dalam, ia sempurna.<br><br><span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Ia tiada otot! Ia hanya biarkan arus laut bekerja untuknya.`,
+    `<b>SPESIES:</b> Obor-obor Atolla (<i>Atolla wyvillei</i>)<br><b>KEDALAMAN:</b> 1,000 – 4,000m<br><br><i>“Bila diserang, saya menyala!”</i><br>Ia menyala merah dan biru untuk menakutkan pemangsa.<br><br><span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Trik kilatannya dipanggil strategi 'penggera pencuri'!`,
+    `<b>SPESIES:</b> Dumbo Octopus (<i>Grimpoteuthis spp.</i>)<br><b>KEDALAMAN:</b> 3,000 – 7,000m<br><br><i>“Saya mengepakkan sirip seperti telinga dan terapung seperti terbang!”</i><br>Dengan kepala bulat dan sirip besar yang lembut, ia kelihatan seperti kartun.<br><br><span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Ia tinggal begitu dalam sehingga tidak perlukan dakwat — sudah pun gelap sepenuhnya!`,
+    `<b>SPESIES:</b> Belut Gulper (<i>Eurypharynx pelecanoides</i>)<br><b>KEDALAMAN:</b> 500 – 3,000m<br><br><i>“Mulut saya lebih besar dari badan saya!”</i><br>Ia mempunyai ekor panjang dan mulut seperti belon.<br><br><span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Ia boleh membuka rahangnya seperti burung pelikan dan mempunyai cahaya di hujung ekornya!`,
+    `<b>SPESIES:</b> Ketam Yeti (<i>Kiwa hirsuta</i>)<br><b>KEDALAMAN:</b> ~2,200m<br><br><i>“Saya tanam makanan atas tangan saya!”</i><br>Ketam berbulu ini mengayunkan ‘tangan’ berbulu untuk menumbuhkan bakteria.<br><br><span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Ia baru sahaja ditemui pada tahun 2005 — dan ia tidak mempunyai mata!`,
+    `<b>SPESIES:</b> Sotong Vampire (<i>Vampyroteuthis infernalis</i>)<br><b>KEDALAMAN:</b> 600 – 900m<br><br><i>“Saya tidak menggigit — saya cuma bersinar dan pergi!”</i><br>Ia gunakan cahaya bercahaya dan membalut diri dengan lengan berjala.<br><br><span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Walaupun namanya menakutkan, ia tidak hisap darah — cuma makan sisa lautan!`,
+    `<b>SPESIES:</b> Jerung Megamouth (<i>Megachasma pelagios</i>)<br><b>KEDALAMAN:</b> 120 – 1,500m<br><br><i>“Saya berenang dengan mulut gergasi terbuka luas!”</i><br>Jerung yang berenang perlahan ini menapis plankton dengan bibir besar yang bercahaya.<br><br><span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Ia hanya ditemui pada tahun 1976 — dan kurang daripada 100 ekor pernah dilihat!`,
+    `<b>SPESIES:</b> Anglerfish (<i>Lophiiformes</i>)<br><b>KEDALAMAN:</b> 300 – 1,600m<br><br><i>“Saya menyinari kegelapan untuk memburu!”</i><br>Di laut dalam yang gelap, anglerfish menggoyangkan umpan bercahaya dari kepalanya.<br><br><span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Anglerfish jantan sangat kecil dan akan melekat pada anglerfish betina seumur hidup!`,
+    `<b>SPESIES:</b> Malaikat Laut (<i>Clione limacina</i>)<br><b>KEDALAMAN:</b> 100 – 1,000m<br><br><i>“Saya kecil, bercahaya dan anggun — tapi saya juga pemburu!”</i><br>Ia kelihatan seperti pari-pari yang bersinar, tetapi ia tangkas.<br><br><span style='color:#0ea5e9'>★ FAKTA MENARIK:</span> Ia memburu rama-rama laut dan boleh berenang lebih laju dari haiwan besar!`
   ]
 };
 
@@ -207,7 +87,7 @@ const factData = [
 ];
 
 // -----------------------------------------------------------------------------
-// [UPDATED] 2 dialog options per creature -> Single specific text
+// DIALOG DATA (Specific Text)
 // -----------------------------------------------------------------------------
 const dialogData = [
   // 1. Barreleye
@@ -254,54 +134,44 @@ const loadModel = async (path, index) => {
   const loader = configureGLTFLoader();
   const model = await loader.loadAsync(path);
   
-  // 1. Measure the Model
   const box = new THREE.Box3().setFromObject(model.scene);
   const size = new THREE.Vector3();
   box.getSize(size);
   
-  // 2. Find the largest dimension
   const maxDim = Math.max(size.x, size.y, size.z);
-  
-  // 3. Calculate Scale to fit in a 0.5 unit box
-  const targetSize = 0.5; 
+  // [MODIFIED] Increased targetSize to 1.3
+  const targetSize = 1.3; 
   const scaleFactor = targetSize / maxDim;
   
-  // 4. Apply Auto-Scale
   model.scene.scale.set(scaleFactor, scaleFactor, scaleFactor);
   
-  // 5. Center it
   const center = new THREE.Vector3();
   box.getCenter(center);
   model.scene.position.sub(center.multiplyScalar(scaleFactor)); 
   model.scene.position.y = 0; 
 
-  // --- SPECIAL LOGIC FOR ATOLLA (2) & DUMBO (3) ---
-  const useOriginalLight = (index === 2 || index === 3);
-  
-  // [MODIFIED] Increased baseIntensity for Atolla/Dumbo to compensate for dimmer world light
-  const baseIntensity = useOriginalLight ? 2.5 : 0.2;
+  // --- EMISSION SETUP FOR BIOLUMINESCENCE PULSE ---
+  // Start VERY DIM so "unique traits" are hidden until tapped.
+  const idleIntensity = 0.2; 
 
-  // Emission Setup
   model.userData.emissiveMeshes = [];
-  model.userData.baseIntensity = baseIntensity; 
-  model.userData.currentIntensity = baseIntensity; 
-  model.userData.targetIntensity = baseIntensity;
+  model.userData.currentIntensity = idleIntensity; 
+  model.userData.targetIntensity = idleIntensity;
+  model.userData.idleIntensity = idleIntensity; 
 
   model.scene.traverse((child) => {
     if (child.isMesh) {
       if (child.material) {
-        if (useOriginalLight) {
-             child.material.emissive = new THREE.Color(0xffffff); 
-             if (child.material.map) child.material.emissiveMap = child.material.map;
-             child.material.emissiveIntensity = baseIntensity;
-             
-             // [MODIFIED] Make them look "wet"/shiny for the habitat look
-             child.material.roughness = 0.1; 
-             child.material.metalness = 0.1;
-             
-             model.userData.emissiveMeshes.push(child);
-        } else if (child.material.emissiveMap || (child.material.emissive && child.material.emissive.getHex() > 0)) {
-            child.material.emissiveIntensity = baseIntensity; 
+        // If material has emission map or color, track it for pulsing
+        if (child.material.emissiveMap || (child.material.emissive && child.material.emissive.getHex() > 0)) {
+            
+            // Force white emission color to allow clean intensity control
+            child.material.emissive = new THREE.Color(0xffffff); 
+            if (child.material.map && !child.material.emissiveMap) {
+                 // Fallback: use base map as emission if no specific map exists
+            }
+
+            child.material.emissiveIntensity = idleIntensity; 
             model.userData.emissiveMeshes.push(child);
         }
       }
@@ -326,7 +196,7 @@ const loadAndConfigureAudio = async (path, camera) => {
 };
 
 // -----------------------------------------------------------------------------
-// 3. NEW: HOLO-TRANSCRIPT SYSTEM
+// 3. UI HELPERS (Transcript, Dialog, Buttons)
 // -----------------------------------------------------------------------------
 
 const createHoloTranscript = () => {
@@ -336,57 +206,37 @@ const createHoloTranscript = () => {
   Object.assign(container.style, {
     position: "absolute", bottom: "160px", left: "50%", transform: "translateX(-50%)",
     width: "90%", maxWidth: "500px", maxHeight: "0px", // Hidden by default
-    background: "rgba(8, 15, 30, 0.85)", // Deep sea navy
-    backdropFilter: "blur(12px)", 
-    border: "1px solid rgba(14, 165, 233, 0.5)", // Cyan border
-    borderLeft: "6px solid #0ea5e9", // Thick tech accent on left
-    borderRadius: "8px", 
-    color: "#e0f2fe", fontFamily: "'Courier New', monospace", 
+    background: "rgba(8, 15, 30, 0.85)", backdropFilter: "blur(12px)", 
+    border: "1px solid rgba(14, 165, 233, 0.5)", borderLeft: "6px solid #0ea5e9",
+    borderRadius: "8px", color: "#e0f2fe", fontFamily: "'Courier New', monospace", 
     zIndex: "9995", overflow: "hidden", transition: "all 0.4s ease-in-out",
     boxShadow: "0 10px 30px rgba(0,0,0,0.5)"
   });
-
-  // Header "System Text"
   const header = document.createElement("div");
   header.innerHTML = "/// AUDIO_LOG_DETECTED ///";
   Object.assign(header.style, {
     fontSize: "10px", color: "#0ea5e9", padding: "8px 15px 0 15px", letterSpacing: "2px", fontWeight: "bold"
   });
-
-  // The actual text content
   const content = document.createElement("p");
   content.id = "holo-text-content";
   Object.assign(content.style, {
     fontSize: "14px", lineHeight: "1.6", padding: "5px 15px 15px 15px", margin: "0",
     fontFamily: "'Poppins', sans-serif", fontWeight: "400", opacity: "0.9"
   });
-
-  container.appendChild(header);
-  container.appendChild(content);
+  container.appendChild(header); container.appendChild(content);
   document.body.appendChild(container);
   return container;
 };
 
-// Helper to toggle the transcript
 const toggleTranscript = (isVisible, text = "") => {
   const box = document.getElementById("holo-transcript-container") || createHoloTranscript();
   const textElem = document.getElementById("holo-text-content");
-  
   if (isVisible) {
-    textElem.innerHTML = text;
-    box.style.maxHeight = "300px"; // Slide open
-    box.style.opacity = "1";
-    box.style.border = "1px solid rgba(14, 165, 233, 0.5)";
+    textElem.innerHTML = text; box.style.maxHeight = "300px"; box.style.opacity = "1"; box.style.border = "1px solid rgba(14, 165, 233, 0.5)";
   } else {
-    box.style.maxHeight = "0px"; // Slide closed
-    box.style.opacity = "0";
-    box.style.border = "none";
+    box.style.maxHeight = "0px"; box.style.opacity = "0"; box.style.border = "none";
   }
 };
-
-// -----------------------------------------------------------------------------
-// 4. ADVANCED DIALOG SYSTEM (SPEECH BUBBLES)
-// -----------------------------------------------------------------------------
 
 let activeBubble = {
     element: null, model: null, offsetY: 0,
@@ -442,11 +292,7 @@ const showAdvancedDialog = (modelIndex, modelScene, clickSound) => {
 
     activeBubble.element = bubble;
     activeBubble.model = modelScene;
-    
-    // ==========================================================
-    // [MODIFIED] Increased bubble height (offsetY)
-    // ==========================================================
-    // Set to 4.5 to ensure it clears all models (including tall ones)
+    // [MODIFIED] High offset for big models
     activeBubble.offsetY = 4.5; 
 
     bubble.style.opacity = "1";
@@ -463,10 +309,6 @@ const showAdvancedDialog = (modelIndex, modelScene, clickSound) => {
         bubble.style.opacity = "0"; activeBubble.model = null; 
     }, 4000);
 };
-
-// -----------------------------------------------------------------------------
-// 5. ANIMATION & INTERACTION
-// -----------------------------------------------------------------------------
 
 const playSpecificAnimation = (modelData, type) => {
     const { mixer, actions, activeAction } = modelData.userData;
@@ -503,7 +345,9 @@ const playSpecificAnimation = (modelData, type) => {
     mixer.addEventListener('finished', onFinished);
 };
 
-const setupTapInteraction = (camera, models, clickSound) => {
+// [MODIFIED] Interaction Logic: Tap 1 = EVERYTHING (Anim+Light+Talk), Tap 2 = Interact
+// [MODIFIED] Added 'ambientLight' parameter to handle Anglerfish
+const setupTapInteraction = (camera, models, clickSound, flashlight, ambientLight) => {
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     let tapTimer = null; let isPointerDown = false; let startX = 0; let startY = 0;
@@ -515,13 +359,35 @@ const setupTapInteraction = (camera, models, clickSound) => {
 
         for (let i = 0; i < models.length; i++) {
             const modelGroup = models[i].scene;
+            const modelData = models[i].userData;
+
             if (modelGroup.visible) {
                 const intersects = raycaster.intersectObjects(modelGroup.children, true);
                 if (intersects.length > 0) {
                     if (interactionType === 'single') {
+                        // 1. Play Sound & Show Text
                         showAdvancedDialog(i, modelGroup, clickSound);
+                        
+                        // 2. Toggle Camera Flashlight
+                        flashlight.intensity = (flashlight.intensity > 0) ? 0 : 5.0;
+
+                        // [MODIFIED] Anglerfish Specific Logic
+                        // If it's the Anglerfish (index 8), make the environment bright/dim to match flashlight
+                        if (i === 8) {
+                            ambientLight.intensity = (flashlight.intensity > 0) ? 2.0 : 0.6;
+                        }
+
+                        // 3. TRIGGER BIOLUMINESCENCE PULSE
+                        // Spike intensity to 8.0 immediately
+                        modelData.currentIntensity = 8.0; 
+                        // Tell it to fade back down to dim (idle) over time
+                        modelData.targetIntensity = modelData.idleIntensity; 
+
+                        // 4. [NEW] Trigger Action Animation ON TAP 1
                         playSpecificAnimation(models[i], 'action');
+
                     } else {
+                        // Double Tap: Secondary Interaction (if available)
                         playSpecificAnimation(models[i], 'interact');
                     }
                     break; 
@@ -552,49 +418,20 @@ const setupTapInteraction = (camera, models, clickSound) => {
 };
 
 const enableZoomRotate = (camera, model) => {
-  let isDragging = false; let prevPosition = { x: 0, y: 0 };
-  let initialPinchDistance = null; let initialScale = model.scene.scale.x; 
-
+  let isDragging = false; let prevPosition = { x: 0, y: 0 }; let initialPinchDistance = null; let initialScale = model.scene.scale.x; 
   const handleStart = (e) => {
     if (e.target.tagName === 'BUTTON' || e.target.closest('button')) return;
-    if (e.touches && e.touches.length === 1) {
-      isDragging = true; prevPosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-    } else if (e.touches && e.touches.length === 2) {
-      isDragging = false; 
-      const dx = e.touches[0].clientX - e.touches[1].clientX;
-      const dy = e.touches[0].clientY - e.touches[1].clientY;
-      initialPinchDistance = Math.sqrt(dx * dx + dy * dy);
-      initialScale = model.scene.scale.x; 
-    } else if (e.type === "mousedown") {
-      isDragging = true; prevPosition = { x: e.clientX, y: e.clientY };
-    }
+    if (e.touches && e.touches.length === 1) { isDragging = true; prevPosition = { x: e.touches[0].clientX, y: e.touches[0].clientY }; }
+    else if (e.touches && e.touches.length === 2) { isDragging = false; const dx = e.touches[0].clientX - e.touches[1].clientX; const dy = e.touches[0].clientY - e.touches[1].clientY; initialPinchDistance = Math.sqrt(dx * dx + dy * dy); initialScale = model.scene.scale.x; }
+    else if (e.type === "mousedown") { isDragging = true; prevPosition = { x: e.clientX, y: e.clientY }; }
   };
-
   const handleMove = (e) => {
-    if (isDragging && (e.type === "mousemove" || (e.touches && e.touches.length === 1))) {
-      const current = e.touches ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : { x: e.clientX, y: e.clientY };
-      const delta = { x: current.x - prevPosition.x, y: current.y - prevPosition.y };
-      model.scene.rotation.y += delta.x * 0.01; model.scene.rotation.x += delta.y * 0.01;
-      prevPosition = current;
-    } else if (e.touches && e.touches.length === 2 && initialPinchDistance) {
-      const dx = e.touches[0].clientX - e.touches[1].clientX;
-      const dy = e.touches[0].clientY - e.touches[1].clientY;
-      const currentDistance = Math.sqrt(dx * dx + dy * dy);
-      const scaleRatio = currentDistance / initialPinchDistance;
-      let newScale = initialScale * scaleRatio;
-      newScale = Math.min(Math.max(newScale, 0.05), 3.0);
-      model.scene.scale.set(newScale, newScale, newScale);
-    }
+    if (isDragging && (e.type === "mousemove" || (e.touches && e.touches.length === 1))) { const current = e.touches ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : { x: e.clientX, y: e.clientY }; const delta = { x: current.x - prevPosition.x, y: current.y - prevPosition.y }; model.scene.rotation.y += delta.x * 0.01; model.scene.rotation.x += delta.y * 0.01; prevPosition = current; }
+    else if (e.touches && e.touches.length === 2 && initialPinchDistance) { const dx = e.touches[0].clientX - e.touches[1].clientX; const dy = e.touches[0].clientY - e.touches[1].clientY; const currentDistance = Math.sqrt(dx * dx + dy * dy); const scaleRatio = currentDistance / initialPinchDistance; let newScale = initialScale * scaleRatio; newScale = Math.min(Math.max(newScale, 0.05), 3.0); model.scene.scale.set(newScale, newScale, newScale); }
   };
   const handleEnd = () => { isDragging = false; initialPinchDistance = null; };
-
-  window.addEventListener("mousedown", handleStart); window.addEventListener("mousemove", handleMove);
-  window.addEventListener("mouseup", handleEnd); window.addEventListener("touchstart", handleStart, { passive: false });
-  window.addEventListener("touchmove", handleMove, { passive: false }); window.addEventListener("touchend", handleEnd);
-  window.addEventListener("wheel", (e) => {
-    let s = model.scene.scale.x; s += e.deltaY * -0.001; s = Math.min(Math.max(s, 0.05), 3.0);
-    model.scene.scale.set(s, s, s);
-  });
+  window.addEventListener("mousedown", handleStart); window.addEventListener("mousemove", handleMove); window.addEventListener("mouseup", handleEnd); window.addEventListener("touchstart", handleStart, { passive: false }); window.addEventListener("touchmove", handleMove, { passive: false }); window.addEventListener("touchend", handleEnd);
+  window.addEventListener("wheel", (e) => { let s = model.scene.scale.x; s += e.deltaY * -0.001; s = Math.min(Math.max(s, 0.05), 3.0); model.scene.scale.set(s, s, s); });
 };
 
 const createFactButton = (anchorId, clickSound) => {
@@ -632,24 +469,16 @@ const createFactButton = (anchorId, clickSound) => {
   return btn;
 };
 
-// -----------------------------------------------------------------------------
-// 6. MAIN EXECUTION
-// -----------------------------------------------------------------------------
-
 const createDeepSeaParticles = (scene) => {
-    const geometry = new THREE.BufferGeometry();
-    const count = 500;
-    const positions = new Float32Array(count * 3);
+    const geometry = new THREE.BufferGeometry(); const count = 500; const positions = new Float32Array(count * 3);
     for(let i=0; i<count * 3; i++) positions[i] = (Math.random() - 0.5) * 15; 
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     const material = new THREE.PointsMaterial({ color: 0x44aaee, size: 0.03, transparent: true, opacity: 0.6, sizeAttenuation: true });
-    const particles = new THREE.Points(geometry, material); scene.add(particles);
-    return particles;
+    const particles = new THREE.Points(geometry, material); scene.add(particles); return particles;
 };
 
 const createBubbles = (scene) => {
-    const bubbles = [];
-    const geometry = new THREE.SphereGeometry(0.08, 16, 16); 
+    const bubbles = []; const geometry = new THREE.SphereGeometry(0.08, 16, 16); 
     const material = new THREE.MeshPhysicalMaterial({ color: 0xffffff, metalness: 0.1, roughness: 0.1, transmission: 0.9, transparent: true, opacity: 0.6 });
     for(let i = 0; i < 20; i++) {
         const bubble = new THREE.Mesh(geometry, material);
@@ -681,7 +510,27 @@ const createPersistentInstruction = () => {
   document.body.appendChild(instructionBox);
 };
 
+// -----------------------------------------------------------------------------
+// 6. MAIN EXECUTION
+// -----------------------------------------------------------------------------
+
+// [MODIFIED] Added function to force full screen styles on Mobile
+const applyFullScreenStyles = () => {
+    const style = document.createElement('style');
+    style.innerHTML = `
+        html, body {
+            margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; position: fixed;
+        }
+        canvas {
+            width: 100% !important; height: 100% !important; display: block;
+        }
+    `;
+    document.head.appendChild(style);
+};
+
 document.addEventListener("DOMContentLoaded", async()=>{
+  applyFullScreenStyles(); // [MODIFIED] Call the style injection
+
   const mindarThree = initializeMindAR();
   const {renderer, scene, camera}=mindarThree;
   
@@ -690,16 +539,24 @@ document.addEventListener("DOMContentLoaded", async()=>{
   renderer.toneMappingExposure = 0.8; 
   renderer.clock=new THREE.Clock();
 
-  // --- UPDATED LIGHTING: WARMER & DIMMER ---
-  // Ambient: 0x406080 (Soft Blue-Grey) @ 2.0
-  const ambientLight = new THREE.AmbientLight(0x406080, 2.0); 
-  
-  // [MODIFIED] Reduced directional light to 0.8 (was 2.0)
-  // This makes the environment "dimmer" (Deep Sea Habitat feel)
-  const directionalLight = new THREE.DirectionalLight(0xfff5e6, 0.8); 
-  
+  // [MODIFIED] iOS Crash Fix
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // --- RESTORED CODE-BASED LIGHTING (Deep Sea Env) ---
+  const ambientLight = new THREE.AmbientLight(0x406080, 0.6); // Dim Blue
+  const directionalLight = new THREE.DirectionalLight(0xfff5e6, 0.5); // Dim Sun
   directionalLight.position.set(1,2,3);
   scene.add(ambientLight,directionalLight);
+
+  // [MODIFIED] Add Flashlight (Spotlight) to Camera
+  const flashlight = new THREE.SpotLight(0xffffff, 0); // Intensity 0 = OFF initially
+  flashlight.position.set(0, 0, 0);
+  flashlight.target.position.set(0, 0, -1);
+  flashlight.angle = Math.PI / 6;
+  flashlight.penumbra = 0.5;
+  flashlight.castShadow = true;
+  camera.add(flashlight);
+  camera.add(flashlight.target);
 
   const particles = createDeepSeaParticles(scene);
   const bubbles = createBubbles(scene);
@@ -717,7 +574,7 @@ document.addEventListener("DOMContentLoaded", async()=>{
   const narrationAudios = await Promise.all(narrationPaths.map(p=>loadAndConfigureAudio(p,camera)));
   const clickSound = await loadAndConfigureAudio('../coding/button.mp3', camera);
 
-  setupTapInteraction(camera, models, clickSound); 
+  setupTapInteraction(camera, models, clickSound, flashlight, ambientLight); 
 
   const mixers = models.map((model,i)=>{
     const anchor=mindarThree.addAnchor(i);
@@ -801,6 +658,10 @@ document.addEventListener("DOMContentLoaded", async()=>{
       toggleTranscript(false);
       narrationBtn.innerText = uiLabels[currentLanguage].audioBtn;
       narrationBtn.style.background = "#14b8a6";
+      
+      // Reset Flashlight & Ambient Light if lost
+      flashlight.intensity = 0;
+      ambientLight.intensity = 0.6; // Reset to default dimness
 
       if (activeBubble.model === model.scene) {
           activeBubble.element.style.opacity = "0";
@@ -892,7 +753,7 @@ document.addEventListener("DOMContentLoaded", async()=>{
     models.forEach((model, i) => {
         mixers[i].update(delta);
         
-        // Manual Emission Lerp
+        // Manual Emission Lerp - Keep for animation
         if (model.userData.emissiveMeshes && model.userData.emissiveMeshes.length > 0) {
             const diff = model.userData.targetIntensity - model.userData.currentIntensity;
             if (Math.abs(diff) > 0.01) {
